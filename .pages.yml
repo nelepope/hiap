@@ -22,10 +22,14 @@ content:
         label: Top of the page
         type: object
         fields:
-          - name: logline
-            label: Logline
+          - name: byline
+            label: Byline
+            type: string
+            description: Shown under the handwritten title. e.g. A play by Simonetta Gibejova.
+          - name: tagline
+            label: Tagline
             type: text
-            description: One sentence, under the title. The hook — the line people remember.
+            description: The line under the byline. Set in capitals by the design, so type it normally.
           - name: venue_short
             label: Venue (short)
             type: string
@@ -60,6 +64,21 @@ content:
             label: Content note
             type: text
             description: Content warnings. Leave empty and the box disappears.
+
+      # ---------------------------------------------------------------
+      - name: accolade
+        label: Award / accolade
+        type: object
+        description: A full-width band between the synopsis and the second photograph. Leave the headline empty and the whole band disappears.
+        fields:
+          - name: text
+            label: Headline
+            type: text
+            description: e.g. Winner, Best Costume Design. Keep it to one line.
+          - name: detail
+            label: Small print above it
+            type: string
+            description: e.g. Warwick Film Festival, 2025.
 
       # ---------------------------------------------------------------
       - name: cast
@@ -140,7 +159,7 @@ content:
             label: Production images
             type: object
             list: true
-            description: Three across looks best, but any number works.
+            description: The first two also appear full-screen between sections, so put your strongest images first. Three across looks best in the grid, but any number works.
             fields:
               - name: image
                 label: Image

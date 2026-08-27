@@ -1,60 +1,74 @@
 hero:
-  logline: A new play about trauma
-  status: "In rehearsal "
+  byline: A play by Simonetta Gibejova
+  tagline: A glimpse into the lonely life of a traumatised person
+  venue_short: ""
+  dates_short: ""
+  running_time: ""
+  status: In rehearsal
+
 synopsis:
-  pull_quote: A pull-quote goes here. One line, sharp enough to stop someone scrolling.
-  body: >-
-    **Paragraph one.** Set the situation up — who, where, and what has just gone
+  pull_quote: ""
+  body: ""
+  content_note: ""
 
-    wrong. Keep it present tense and concrete. This is the paragraph a
-    programmer
+accolade:
+  text: ""
+  detail: ""
 
-    or a journalist will read and nothing else, so it has to carry the whole
-    play.
-
-
-    Paragraph two. Turn the screw. What choice is forced, and what does it cost?
-
-    Avoid summarising the ending — leave the question open.
-
-
-    Paragraph three, optional. What the play is really about underneath the
-    plot,
-
-    said once and lightly.
 cast:
   - role: Character name
-    bio: One or two lines. Recent credits, training, anything that gives a booker
-      confidence.
-  - role: Character name
-  - role: Character name
-  - role: Character name
+    name: ""
+    bio: ""
+
 creatives:
-  - role: Writer
-  - role: Director
+  - role: Writer & director
+    name: Simonetta Gibejova
+    bio: ""
   - role: Producer
+    name: ""
+    bio: ""
   - role: Set & costume designer
+    name: ""
+    bio: ""
   - role: Lighting designer
+    name: ""
+    bio: ""
   - role: Sound designer
-  - role: Stage manager
+    name: ""
+    bio: ""
+
 tickets:
+  venue_name: ""
+  venue_address: ""
+  venue_url: ""
+  dates_text: ""
   onsale_text: Join the list below and you'll hear first.
-  mailing_list_url: mailto:hello@healthisaprivilege.com?subject=Mailing list —
-    Health Is a Privilege
+  mailing_list_url: "mailto:hello@healthisaprivilege.com?subject=Mailing list — Health is a Privilege"
+  booking_url: ""
   groups_email: hello@healthisaprivilege.com
+
 press:
   gallery:
-    - caption: Production image 01
-    - caption: Production image 02
-    - caption: Production image 03
-  kit_text: Production images, the press release and interview requests — get in
-    touch and we'll send the pack over.
+    - image: /Pics/bandaged-portrait.jpg
+      caption: ""
+      alt: A performer with their head wrapped in bandages, looking towards the camera
+    - image: /Pics/rehearsal-room.jpg
+      caption: ""
+      alt: A rehearsal room strewn with dried leaves, a figure draped backwards over a chair and a second figure playing guitar by the window
+    - image: /Pics/chair-and-light.jpg
+      caption: ""
+      alt: A figure lying on the floor beside an overturned chair in a shaft of light
+  quotes: []
+  kit_text: Production images, the press release and interview requests — get in touch and we'll send the pack over.
   email: press@healthisaprivilege.com
+
 contact:
   general_email: hello@healthisaprivilege.com
   press_email: press@healthisaprivilege.com
+  instagram_url: ""
+
 seo:
   allow_search: false
-  meta_description: Health Is a Privilege — a new play. Venue confirmed, dates to
-    be announced. Join the mailing list for first news of tickets.
-  share_description: A new play. Venue confirmed, dates to be announced.
+  meta_description: Health is a Privilege — a play by Simonetta Gibejova. A glimpse into the lonely life of a traumatised person.
+  share_description: A play by Simonetta Gibejova. A glimpse into the lonely life of a traumatised person.
+  share_image: /Pics/brand/share-card.jpg

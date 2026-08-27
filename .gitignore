@@ -2,7 +2,20 @@
 .claude/
 .preview/
 
-# Working material — not part of the website
-Pics/originals/
+# Working material — never publish these
 Brand /
 *.pdf
+*.dng
+*.DNG
+*.mp4
+*.mov
+
+# Pics/ is a working folder. Nothing in it is published unless it is
+# explicitly listed below, so dropping files here is always safe.
+Pics/**
+!Pics/brand/
+!Pics/brand/wordmark.png
+!Pics/brand/share-card.jpg
+!Pics/bandaged-portrait.jpg
+!Pics/rehearsal-room.jpg
+!Pics/chair-and-light.jpg
