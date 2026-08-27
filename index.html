@@ -139,6 +139,13 @@
     padding: clamp(1.1rem, 4vh, 2.2rem) var(--gut);
     background: linear-gradient(to bottom, rgba(7,7,7,0.55), rgba(7,7,7,0));
   }
+  .nav__menu {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem clamp(1rem, 3vw, 2.5rem);
+  }
   .nav ul { display: flex; flex-wrap: wrap; gap: 0.4rem clamp(1.1rem, 2.6vw, 2.4rem); list-style: none; }
   .nav a {
     font-size: clamp(0.8rem, 1.1vw, 0.95rem);
@@ -152,16 +159,61 @@
   }
   .nav a:hover { opacity: 0.55; }
 
-  /* Five items don't fit on a phone — centre them over two rows instead,
-     and give every link a finger-sized hit area. */
+  /* Hamburger — hidden until the links stop fitting. */
+  .nav__toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    margin-right: -0.3rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--white);
+    cursor: pointer;
+  }
+  .nav__toggle i {
+    display: block;
+    width: 22px;
+    height: 1px;
+    margin: 5px auto;
+    background: currentColor;
+    transition: transform 0.4s var(--ease), opacity 0.25s var(--ease);
+  }
+  .nav.is-open .nav__toggle i:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .nav.is-open .nav__toggle i:nth-child(2) { opacity: 0; }
+  .nav.is-open .nav__toggle i:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
   @media (max-width: 620px) {
-    .nav { flex-direction: column; gap: 0; padding: 0.35rem var(--gut) 0.8rem; }
-    .nav ul { justify-content: center; gap: 0 0.5rem; }
-    .nav a { display: block; padding: 0.72rem 0.3rem; letter-spacing: 0.04em; }
+    .nav { padding: 0.5rem var(--gut); justify-content: flex-end; }
+    .nav__toggle { display: block; }
+
+    /* Full-screen overlay. visibility:hidden also keeps the links out of
+       the tab order and the accessibility tree while closed. */
+    .nav__menu {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.4rem;
+      background: rgba(7,7,7,0.97);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s var(--ease), visibility 0s linear 0.4s;
+    }
+    .nav.is-open .nav__menu {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.4s var(--ease), visibility 0s;
+    }
+    .nav__menu ul { flex-direction: column; align-items: center; gap: 0; }
+    .nav__menu a { display: block; font-size: 1.05rem; padding: 0.85rem 1.5rem; letter-spacing: 0.08em; }
+    .nav__menu > a { margin-top: 1.2rem; }
+
     /* Labels are small by design, but not below ~12.5px on a phone. */
     .cap { font-size: 0.78rem; }
-    .hero { padding-top: 8rem; }
-    .panel { padding-top: 8.5rem; }
+    .hero { padding-top: 6rem; }
+    .panel { padding-top: 6.5rem; }
     .foot-grid a { padding: 0.35rem 0; }
     .panel__ig { padding: 0.5rem 0; }
   }
@@ -498,13 +550,18 @@
 <a class="skip" href="#main">Skip to content</a>
 
 <nav class="nav">
-  <ul>
-    <li><a href="#about">About</a></li>
-    <li><a href="#simonetta">Simonetta</a></li>
-    <li><a href="#gallery">Gallery</a></li>
-    <li><a href="#press">Press</a></li>
-  </ul>
-  <a href="{% if play.tickets.booking_url and play.tickets.booking_url != "" %}{{ play.tickets.booking_url }}{% else %}#about{% endif %}">{{ play.nav.cta | default: "Buy tickets" }}</a>
+  <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+    <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
+  </button>
+  <div class="nav__menu" id="nav-menu">
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#simonetta">Simonetta</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#press">Press</a></li>
+    </ul>
+    <a href="{% if play.tickets.booking_url and play.tickets.booking_url != "" %}{{ play.tickets.booking_url }}{% else %}#about{% endif %}">{{ play.nav.cta | default: "Buy tickets" }}</a>
+  </div>
 </nav>
 
 <main id="main">
@@ -680,6 +737,26 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Hamburger menu
+  const nav = document.querySelector('.nav');
+  const toggle = nav.querySelector('.nav__toggle');
+  const menu = document.getElementById('nav-menu');
+
+  const setMenu = (open) => {
+    nav.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+
+  toggle.addEventListener('click', () => setMenu(!nav.classList.contains('is-open')));
+  menu.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav.classList.contains('is-open')) { setMenu(false); toggle.focus(); }
+  });
+  // Leaving mobile width with the menu open would otherwise lock scrolling.
+  matchMedia('(min-width: 621px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const targets = document.querySelectorAll('.reveal');
