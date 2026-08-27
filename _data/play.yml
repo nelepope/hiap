@@ -1,5 +1,8 @@
+nav:
+  cta: Buy tickets
+
 hero:
-  byline: A new play by Simonetta Gibejova
+  byline: One woman show by Simonetta Gibejova
   background: /Pics/hero-sofa.jpg
   tagline: A glimpse into the lonely life of a traumatised person
   venue_short: ""
@@ -11,6 +14,11 @@ synopsis:
   pull_quote: ""
   body: ""
   content_note: ""
+
+about:
+  portrait: /Pics/bandaged-portrait.jpg
+  portrait_alt: Simonetta Gibejova, her head wrapped in bandages, looking towards the camera
+  body: ""
 
 accolade:
   text: ""

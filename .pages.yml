@@ -18,6 +18,16 @@ content:
     fields:
 
       # ---------------------------------------------------------------
+      - name: nav
+        label: Navigation
+        type: object
+        fields:
+          - name: cta
+            label: Ticket button label
+            type: string
+            description: The link at the top right. It points at the box office once there is one, and at the dates section until then.
+
+      # ---------------------------------------------------------------
       - name: hero
         label: Top of the page
         type: object
@@ -29,7 +39,7 @@ content:
           - name: byline
             label: Byline
             type: string
-            description: Sits above the handwritten title. e.g. A new play by Simonetta Gibejova.
+            description: Sits above the handwritten title. e.g. One woman show by Simonetta Gibejova.
           - name: tagline
             label: Tagline
             type: text
@@ -68,6 +78,23 @@ content:
             label: Content note
             type: text
             description: Content warnings. Leave empty and the box disappears.
+
+      # ---------------------------------------------------------------
+      - name: about
+        label: Simonetta
+        type: object
+        description: The biography section.
+        fields:
+          - name: portrait
+            label: Portrait
+            type: image
+          - name: portrait_alt
+            label: Portrait description
+            type: string
+            description: For people using a screen reader — describe the photograph.
+          - name: body
+            label: Biography
+            type: rich-text
 
       # ---------------------------------------------------------------
       - name: accolade

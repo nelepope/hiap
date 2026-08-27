@@ -126,6 +126,41 @@
      the field has something in it. */
   .tbc { color: var(--faint); }
 
+  /* ---------------- nav ---------------- */
+
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem clamp(1rem, 3vw, 2.5rem);
+    padding: clamp(1.1rem, 4vh, 2.2rem) var(--gut);
+    background: linear-gradient(to bottom, rgba(7,7,7,0.55), rgba(7,7,7,0));
+  }
+  .nav ul { display: flex; flex-wrap: wrap; gap: 0.4rem clamp(1.1rem, 2.6vw, 2.4rem); list-style: none; }
+  .nav a {
+    font-size: clamp(0.72rem, 1.1vw, 0.95rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--white);
+    white-space: nowrap;
+    opacity: 0.92;
+    transition: opacity 0.3s var(--ease);
+  }
+  .nav a:hover { opacity: 0.55; }
+
+  /* Five items don't fit on a phone — centre them over two rows instead. */
+  @media (max-width: 620px) {
+    .nav { flex-direction: column; gap: 0.35rem; padding-top: 1.1rem; }
+    .nav ul { justify-content: center; }
+  }
+
+  /* Anchors must clear the fixed bar when jumped to. */
+  section[id] { scroll-margin-top: clamp(4rem, 12vh, 6rem); }
+
   /* ---------------- hero ---------------- */
 
   .hero {
@@ -172,9 +207,9 @@
   }
 
   .wordmark {
-    width: clamp(140px, 13vw, 200px);
+    width: clamp(150px, 14.5vw, 215px);
     height: auto;
-    margin: clamp(2.6rem, 6.5vh, 4.5rem) 0;
+    margin: clamp(2.4rem, 6vh, 4rem) 0;
     opacity: 0;
     animation: rise 2s var(--ease) 0.45s forwards;
   }
@@ -268,6 +303,12 @@
     margin: 0.9rem auto 0;
   }
 
+  /* ---------------- bio ---------------- */
+
+  .bio { display: grid; gap: clamp(2rem, 5vw, 4rem); grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 900px) { .bio { grid-template-columns: 0.85fr 1.15fr; } }
+  .bio__portrait img { width: 100%; height: auto; filter: grayscale(1) contrast(1.04); }
+
   /* ---------------- credits ---------------- */
 
   .credit {
@@ -349,6 +390,16 @@
 
 <a class="skip" href="#main">Skip to content</a>
 
+<nav class="nav">
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#simonetta">Simonetta</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#press">Press</a></li>
+  </ul>
+  <a href="{% if play.tickets.booking_url and play.tickets.booking_url != "" %}{{ play.tickets.booking_url }}{% else %}#tickets{% endif %}">{{ play.nav.cta | default: "Buy tickets" }}</a>
+</nav>
+
 <main id="main">
 
   <!-- ============ HERO ============ -->
@@ -366,13 +417,6 @@
     {% if play.hero.tagline and play.hero.tagline != "" %}
     <p class="hero__tagline">{{ play.hero.tagline }}</p>
     {% endif %}
-
-    <div class="hero__meta">
-      <span class="cap">{% if play.hero.venue_short and play.hero.venue_short != "" %}{{ play.hero.venue_short }}{% elsif play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name }}{% else %}<span class="tbc">Venue to be confirmed</span>{% endif %}</span>
-      <span class="cap">{% if play.hero.dates_short and play.hero.dates_short != "" %}{{ play.hero.dates_short }}{% else %}Dates to be announced{% endif %}</span>
-      {% if play.hero.running_time and play.hero.running_time != "" %}<span class="cap">{{ play.hero.running_time }}</span>{% endif %}
-      {% if play.hero.status and play.hero.status != "" %}<span class="cap">{{ play.hero.status }}</span>{% endif %}
-    </div>
   </header>
 
   <!-- ============ FIRST PLATE ============ -->
@@ -385,10 +429,14 @@
   {% endif %}
 
   <!-- ============ THE PLAY ============ -->
-  {% if play.synopsis.body and play.synopsis.body != "" or play.synopsis.pull_quote and play.synopsis.pull_quote != "" %}
-  <section id="the-play">
+  <section id="about">
     <div class="wrap">
-      <div class="sec-head reveal"><span class="cap">01</span><h2>The play</h2></div>
+      <div class="sec-head reveal"><span class="cap">01</span><h2>About</h2></div>
+      {% if play.synopsis.body == nil or play.synopsis.body == "" %}
+      {% if play.synopsis.pull_quote == nil or play.synopsis.pull_quote == "" %}
+      <p class="prose tbc reveal">The synopsis hasn't been written yet.</p>
+      {% endif %}
+      {% endif %}
       <div class="two-col">
         {% if play.synopsis.pull_quote and play.synopsis.pull_quote != "" %}
         <p class="pull reveal">{{ play.synopsis.pull_quote }}</p>
@@ -402,7 +450,6 @@
       </div>
     </div>
   </section>
-  {% endif %}
 
   <!-- ============ ACCOLADE ============ -->
   {% if play.accolade.text and play.accolade.text != "" %}
@@ -423,19 +470,38 @@
   </figure>
   {% endif %}
 
-  <!-- ============ COMPANY ============ -->
-  <section id="company">
+  <!-- ============ SIMONETTA ============ -->
+  <section id="simonetta">
     <div class="wrap">
-      <div class="sec-head reveal"><span class="cap">02</span><h2>Cast &amp; creatives</h2></div>
+      <div class="sec-head reveal"><span class="cap">02</span><h2>Simonetta</h2></div>
 
-      {% if play.cast.size > 0 %}
+      <div class="bio">
+        {% if play.about.portrait and play.about.portrait != "" %}
+        <figure class="bio__portrait reveal">
+          <img src="{{ play.about.portrait }}" alt="{{ play.about.portrait_alt }}" loading="lazy">
+        </figure>
+        {% endif %}
+
+        <div class="reveal">
+          {% if play.about.body and play.about.body != "" %}
+          <div class="prose">{{ play.about.body | markdownify }}</div>
+          {% else %}
+          <p class="prose tbc">Simonetta's biography hasn't been written yet.</p>
+          {% endif %}
+        </div>
+      </div>
+
+      {% assign named_cast = 0 %}
+      {% for m in play.cast %}{% if m.name and m.name != "" %}{% assign named_cast = named_cast | plus: 1 %}{% endif %}{% endfor %}
+
+      {% if named_cast > 0 %}
       <p class="cap group reveal">Cast</p>
       <div class="reveal">
         {% for m in play.cast %}
         <div class="credit">
           <span class="cap credit__role">{{ m.role }}</span>
           <div>
-            <p class="credit__name">{% if m.name and m.name != "" %}{{ m.name }}{% else %}<span class="tbc">Casting to be announced</span>{% endif %}</p>
+            <p class="credit__name">{% if m.name and m.name != "" %}{{ m.name }}{% else %}<span class="tbc">To be announced</span>{% endif %}</p>
             {% if m.bio and m.bio != "" %}<p class="credit__bio">{{ m.bio }}</p>{% endif %}
           </div>
         </div>
@@ -444,7 +510,7 @@
       {% endif %}
 
       {% if play.creatives.size > 0 %}
-      <p class="cap group reveal">Creative team</p>
+      <p class="cap group reveal">Company</p>
       <div class="reveal">
         {% for m in play.creatives %}
         <div class="credit">
@@ -495,9 +561,9 @@
   </section>
 
   <!-- ============ GALLERY & PRESS ============ -->
-  <section id="press">
+  <section id="gallery">
     <div class="wrap">
-      <div class="sec-head reveal"><span class="cap">04</span><h2>Gallery &amp; press</h2></div>
+      <div class="sec-head reveal"><span class="cap">04</span><h2>Gallery</h2></div>
 
       {% if play.press.gallery.size > 0 %}
       <div class="grid reveal">
@@ -509,9 +575,16 @@
         {% endfor %}
       </div>
       {% endif %}
+    </div>
+  </section>
+
+  <!-- ============ PRESS ============ -->
+  <section id="press">
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="cap">05</span><h2>Press</h2></div>
 
       {% if play.press.quotes.size > 0 %}
-      <div class="quotes reveal">
+      <div class="quotes reveal" style="margin-top:0">
         {% for q in play.press.quotes %}
         <figure class="quote">
           <blockquote>{{ q.quote }}</blockquote>
@@ -521,7 +594,7 @@
       </div>
       {% endif %}
 
-      <div class="kit reveal">
+      <div class="kit reveal"{% if play.press.quotes.size == 0 %} style="border-top:0;padding-top:0;margin-top:0"{% endif %}>
         <span class="cap">For press</span>
         {% if play.press.kit_text and play.press.kit_text != "" %}
         <p class="prose" style="margin-top:0.7rem">{{ play.press.kit_text }}</p>
