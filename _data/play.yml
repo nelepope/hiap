@@ -1,0 +1,131 @@
+# ---------------------------------------------------------------------------
+# All the words on the site live in this one file.
+#
+# You can edit it here if you like YAML, but the friendlier way is the CMS at
+# app.pagescms.org, which shows every field below as a labelled box. Either way
+# the result is the same, and the live site updates about a minute after saving.
+#
+# Two rules if you edit this file by hand:
+#   1. Keep the indentation exactly as it is. YAML cares about spaces.
+#   2. If your text contains a colon or starts with a quote, wrap the whole
+#      thing in "double quotes".
+#
+# Leaving a field empty is fine and often deliberate — the page hides the bits
+# that have nothing in them yet, rather than showing an empty gap.
+# ---------------------------------------------------------------------------
+
+hero:
+  # One sentence. The hook. This is the line people remember.
+  logline: A new play about who gets to be well, and what it costs everybody else.
+  # Short version of the venue for the strip under the title. Leave blank until confirmed.
+  venue_short: ""
+  # e.g. "12–30 May 2027". Leave blank and it reads "To be announced".
+  dates_short: ""
+  # e.g. "90 minutes, no interval"
+  running_time: ""
+  status: In production
+
+synopsis:
+  # The sharpest line of the play, or a distillation of its argument.
+  pull_quote: A pull-quote goes here. One line, sharp enough to stop someone scrolling.
+
+  # The synopsis itself. Blank lines separate paragraphs. **Bold** and *italics* work.
+  body: |
+    **Paragraph one.** Set the situation up — who, where, and what has just gone
+    wrong. Keep it present tense and concrete. This is the paragraph a programmer
+    or a journalist will read and nothing else, so it has to carry the whole play.
+
+    Paragraph two. Turn the screw. What choice is forced, and what does it cost?
+    Avoid summarising the ending — leave the question open.
+
+    Paragraph three, optional. What the play is really about underneath the plot,
+    said once and lightly.
+
+  # Content warnings. Leave blank to hide the box entirely.
+  content_note: ""
+
+# Each entry becomes a row. Add, remove and reorder freely.
+cast:
+  - role: Character name
+    name: ""
+    bio: One or two lines. Recent credits, training, anything that gives a booker confidence.
+  - role: Character name
+    name: ""
+    bio: ""
+  - role: Character name
+    name: ""
+    bio: ""
+  - role: Character name
+    name: ""
+    bio: ""
+
+creatives:
+  - role: Writer
+    name: ""
+    bio: ""
+  - role: Director
+    name: ""
+    bio: ""
+  - role: Producer
+    name: ""
+    bio: ""
+  - role: Set & costume designer
+    name: ""
+    bio: ""
+  - role: Lighting designer
+    name: ""
+    bio: ""
+  - role: Sound designer
+    name: ""
+    bio: ""
+  - role: Stage manager
+    name: ""
+    bio: ""
+
+tickets:
+  venue_name: ""
+  venue_address: ""
+  venue_url: ""
+  # Shown under "Performance dates". Leave blank and it reads "To be announced."
+  dates_text: ""
+  onsale_text: Join the list below and you'll hear first.
+  # A signup page URL, or a mailto: link. Leave blank to hide the button.
+  mailing_list_url: "mailto:hello@healthisaprivilege.com?subject=Mailing list — Health Is a Privilege"
+  # The box office link. Leave blank until tickets are live and the button stays hidden.
+  booking_url: ""
+  groups_email: hello@healthisaprivilege.com
+
+press:
+  # Upload images through the CMS and they land in Pics/ automatically.
+  # Leave `image` blank and the slot shows as an empty placeholder.
+  gallery:
+    - image: ""
+      caption: Production image 01
+      alt: ""
+    - image: ""
+      caption: Production image 02
+      alt: ""
+    - image: ""
+      caption: Production image 03
+      alt: ""
+
+  # Real review quotes only, once the play has been seen. Until then leave this
+  # empty and the whole quotes section stays off the page.
+  quotes: []
+  # When you have them, each one looks like:
+  #   - quote: The quote itself, without quotation marks.
+  #     publication: Publication name
+
+  kit_text: Production images, the press release and interview requests — get in touch and we'll send the pack over.
+  email: press@healthisaprivilege.com
+
+contact:
+  general_email: hello@healthisaprivilege.com
+  press_email: press@healthisaprivilege.com
+  instagram_url: ""
+
+seo:
+  meta_description: Health Is a Privilege — a new play. Venue confirmed, dates to be announced. Join the mailing list for first news of tickets.
+  share_description: A new play. Venue confirmed, dates to be announced.
+  # A 1200×630 image for link previews. Upload via the CMS.
+  share_image: ""

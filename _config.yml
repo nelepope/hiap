@@ -1,0 +1,16 @@
+# Jekyll configuration. GitHub Pages builds this automatically on every push —
+# there is no build step to run yourself.
+#
+# Content lives in _data/play.yml, not here. This file is structural; leave it
+# alone unless you're changing how the site is built.
+
+title: Health Is a Privilege
+description: A new play.
+url: https://healthisaprivilege.com
+lang: en-GB
+
+# Keep these out of the built site
+exclude:
+  - README.md
+  - .claude/
+  - scratch/

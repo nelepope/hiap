@@ -1,0 +1,211 @@
+# Pages CMS configuration — https://pagescms.org/docs/
+#
+# This file decides what the editing form at app.pagescms.org looks like. Each
+# field below becomes a labelled box, and each `description` becomes the grey
+# hint underneath it. Changing this file changes the form, not the website.
+
+media:
+  input: Pics
+  output: /Pics
+  categories: [image]
+
+content:
+  - name: play
+    label: Website content
+    type: file
+    path: _data/play.yml
+    format: yaml
+    fields:
+
+      # ---------------------------------------------------------------
+      - name: hero
+        label: Top of the page
+        type: object
+        fields:
+          - name: logline
+            label: Logline
+            type: text
+            description: One sentence, under the title. The hook — the line people remember.
+          - name: venue_short
+            label: Venue (short)
+            type: string
+            description: Just the venue name, for the strip under the title. Leave empty until it's public.
+          - name: dates_short
+            label: Dates (short)
+            type: string
+            description: e.g. 12–30 May 2027. Leave empty and it reads "To be announced".
+          - name: running_time
+            label: Running time
+            type: string
+            description: e.g. 90 minutes, no interval. Leave empty to hide it.
+          - name: status
+            label: Status
+            type: string
+            description: e.g. In production, In rehearsal, Now playing.
+
+      # ---------------------------------------------------------------
+      - name: synopsis
+        label: The play
+        type: object
+        fields:
+          - name: pull_quote
+            label: Pull-quote
+            type: text
+            description: The big line on the left. The sharpest sentence in the play, or what it's really about.
+          - name: body
+            label: Synopsis
+            type: rich-text
+            description: Two or three paragraphs. Bold and italics work. Don't give away the ending.
+          - name: content_note
+            label: Content note
+            type: text
+            description: Content warnings. Leave empty and the box disappears.
+
+      # ---------------------------------------------------------------
+      - name: cast
+        label: Cast
+        type: object
+        list: true
+        description: One entry per role. Drag to reorder.
+        fields:
+          - name: role
+            label: Character
+            type: string
+          - name: name
+            label: Played by
+            type: string
+            description: Leave empty and it shows "Casting to be announced".
+          - name: bio
+            label: Short bio
+            type: text
+            description: A line or two. Recent credits, training — whatever gives a booker confidence.
+
+      # ---------------------------------------------------------------
+      - name: creatives
+        label: Creative team
+        type: object
+        list: true
+        description: Writer, director, designers and so on. Drag to reorder.
+        fields:
+          - name: role
+            label: Job
+            type: string
+          - name: name
+            label: Name
+            type: string
+          - name: bio
+            label: Short bio
+            type: text
+
+      # ---------------------------------------------------------------
+      - name: tickets
+        label: Dates & tickets
+        type: object
+        fields:
+          - name: venue_name
+            label: Venue name
+            type: string
+          - name: venue_address
+            label: Venue address
+            type: string
+          - name: venue_url
+            label: Venue website
+            type: string
+            description: Full address starting https://. Shown in the footer.
+          - name: dates_text
+            label: Performance dates
+            type: text
+            description: Write it however reads best. Leave empty and it says "To be announced."
+          - name: onsale_text
+            label: On-sale note
+            type: text
+          - name: mailing_list_url
+            label: Mailing list link
+            type: string
+            description: "A signup page starting https://, or a mailto: link. Empty hides the button."
+          - name: booking_url
+            label: Box office link
+            type: string
+            description: Leave empty until tickets are actually on sale — the Book tickets button stays hidden until there's a link here.
+          - name: groups_email
+            label: Group bookings email
+            type: string
+
+      # ---------------------------------------------------------------
+      - name: press
+        label: Gallery & press
+        type: object
+        fields:
+          - name: gallery
+            label: Production images
+            type: object
+            list: true
+            description: Three across looks best, but any number works.
+            fields:
+              - name: image
+                label: Image
+                type: image
+              - name: caption
+                label: Caption
+                type: string
+              - name: alt
+                label: Image description
+                type: string
+                description: For people using a screen reader — describe what's happening in the photo.
+          - name: quotes
+            label: Press quotes
+            type: object
+            list: true
+            description: Real review quotes only, once the play has been seen. Empty until then — the section hides itself.
+            fields:
+              - name: quote
+                label: Quote
+                type: text
+                description: No quotation marks — the design adds those.
+              - name: publication
+                label: Publication
+                type: string
+          - name: kit_text
+            label: Press pack note
+            type: text
+          - name: email
+            label: Press email
+            type: string
+
+      # ---------------------------------------------------------------
+      - name: contact
+        label: Contact
+        type: object
+        fields:
+          - name: general_email
+            label: General email
+            type: string
+          - name: press_email
+            label: Press email
+            type: string
+          - name: instagram_url
+            label: Instagram
+            type: string
+            description: Full address starting https://. Empty hides the link.
+
+      # ---------------------------------------------------------------
+      - name: seo
+        label: Search & sharing
+        type: object
+        description: How the site looks in Google results and when the link is pasted into WhatsApp or Instagram.
+        fields:
+          - name: meta_description
+            label: Google description
+            type: text
+            description: Around 155 characters. This is the grey text under the link in search results.
+          - name: share_description
+            label: Link preview text
+            type: text
+          - name: share_image
+            label: Link preview image
+            type: image
+            description: Ideally 1200 × 630 pixels. Without one, shared links show no picture.
+
+settings:
+  content:
+    merge: true

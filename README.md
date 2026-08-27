@@ -1,74 +1,108 @@
 # hiap
 
-Site for **Health Is a Privilege**, a new play — served at https://healthisaprivilege.com via GitHub Pages.
+The website for **Health Is a Privilege**, a new play — live at https://healthisaprivilege.com.
 
-Single static page, no build step. Everything lives in `index.html`: markup, CSS and the small
-scroll-reveal script. Edit it directly and push.
+---
 
-## What still needs filling in
+## Changing the words on the site
 
-Every placeholder is marked two ways: an HTML comment starting `REPLACE:` above the block, and a
-red dotted underline on the page itself (the `.tbc` class). When you replace the text, drop the
-`tbc` class so the underline goes.
+**Go to [app.pagescms.org](https://app.pagescms.org), open this repository, click *Website content*.**
 
-Find them all with:
+You'll see a form: Logline, Synopsis, Cast, Venue, and so on. Change what you want, hit save, and
+the live site catches up in about a minute. That's the whole job — no code, no installing anything.
 
-```bash
-grep -n "REPLACE\|tbc" index.html
-```
+A few things worth knowing:
 
-The list, in page order:
+- **Empty fields hide themselves.** There's no need to invent a running time or a press quote to
+  fill a gap. If a field is empty, that part of the page quietly disappears rather than showing a
+  hole. The exceptions are the venue and the cast names, which show a red dotted "to be confirmed"
+  instead — deliberately, so nobody forgets them.
+- **The Book tickets button only appears once there's a link in *Box office link*.** Until then the
+  mailing list button takes its place.
+- **Images** go in through the CMS. Upload them in the Production images section and they're
+  resized, stored and linked automatically.
+- **Every save is undoable.** Nothing is ever really lost — the full history of every change is
+  kept, so a mistake is a five-minute fix, not a disaster. Edit freely.
 
-- **Logline** — the one-sentence hook in the hero.
-- **Venue name** — appears twice (hero meta strip and the tickets card) plus the venue address,
-  the venue website link in the footer, and the `TheaterEvent` block in `<head>`.
-- **Running time.**
-- **Synopsis** — the pull-quote and three paragraphs.
-- **Content note** — fill in or delete the block.
-- **Cast & creatives** — every name and bio. Delete rows you don't need, duplicate the ones you do.
-- **Press quotes** — leave the section deleted until there are real reviews to quote.
-- **Production images** — see below.
-- **Email addresses** — currently `hello@` and `press@healthisaprivilege.com`. Either set those up
-  at the domain or swap them for the addresses you actually want public.
-- **Mailing list** — the primary button is a `mailto:` for now. Swap the `href` for a signup URL
-  (Mailchimp, Substack, whatever the producer uses) when there is one.
-- **Instagram** link in the footer.
+### Getting access
 
-Once dates are confirmed: replace "To be announced" in the hero meta and the tickets card,
-uncomment the **Book tickets** button and point it at the box office, and add `startDate` /
-`endDate` to the `TheaterEvent` JSON-LD in `<head>`.
+Pen invites you by email from inside Pages CMS (*Settings → Collaborators*). You do **not** need a
+GitHub account — you'll get an email, set a password, and that's it.
 
-## Images
+---
 
-Drop files into `Pics/` and swap each placeholder figure in the gallery for:
+## For anyone editing the files directly
 
-```html
-<figure class="shot"><img src="/Pics/filename.jpg" alt="Describe the moment shown"></figure>
-```
+Nothing here needs a build step. GitHub Pages compiles the site with Jekyll on every push.
 
-For link previews on social, add a 1200×630 image at `Pics/og.jpg` and uncomment the two
-`og:image` / `twitter:image` lines in `<head>`.
+| File | What it is |
+|---|---|
+| `_data/play.yml` | **All the words.** This is what the CMS form writes to. |
+| `index.html` | The layout. Design, CSS and the `{{ slots }}` that pull text from `play.yml`. |
+| `.pages.yml` | Defines the CMS form — what fields exist and what the hints say. |
+| `_config.yml` | Jekyll settings. Rarely needs touching. |
+| `Pics/` | Images. The CMS uploads here. |
+| `CNAME` | Points the site at healthisaprivilege.com. Don't delete it. |
 
-## DNS
+Two things to be careful of:
 
-Point healthisaprivilege.com at GitHub Pages with these records at the registrar:
+1. **Don't remove the `---` lines at the top of `index.html`.** They're what tells GitHub Pages to
+   build the file. Without them the page stops updating and nothing obvious tells you why.
+2. **The CMS rewrites `_data/play.yml` when it saves, and strips the explanatory comments in it.**
+   That's expected. The same guidance lives in `.pages.yml` as field hints, which survive.
 
-| Type  | Name | Value                 |
-|-------|------|-----------------------|
-| A     | @    | 185.199.108.153       |
-| A     | @    | 185.199.109.153       |
-| A     | @    | 185.199.110.153       |
-| A     | @    | 185.199.111.153       |
-| CNAME | www  | nelepope.github.io.   |
+### Working on it locally
 
-Then in the repo: **Settings → Pages**, set the source to `main` / root, confirm the custom domain
-reads `healthisaprivilege.com`, and tick **Enforce HTTPS** once the certificate has been issued
-(that can take up to an hour after DNS propagates).
-
-## Local preview
+Ruby 2.7+ is needed for Jekyll, which macOS doesn't ship (system Ruby is 2.6). If you want a local
+preview:
 
 ```bash
-python3 -m http.server 8000
+brew install ruby && gem install jekyll bundler
 ```
 
-Then open http://localhost:8000.
+Then, from this folder:
+
+```bash
+jekyll serve
+```
+
+Honestly, though — for a site this size it's usually easier to push and look at the real thing.
+
+---
+
+## First-time setup
+
+Not yet done. In order:
+
+1. Create a repository called `hiap` at https://github.com/new — public, and **don't** add a README,
+   .gitignore or licence, because this folder already has them.
+2. Push it:
+
+```bash
+git remote add origin git@github.com:nelepope/hiap.git && git push -u origin main
+```
+
+3. **Settings → Pages**, set source to `main` / root. Confirm the custom domain says
+   `healthisaprivilege.com`, and tick **Enforce HTTPS** once the certificate has been issued (can
+   take up to an hour after DNS propagates).
+4. Point the domain at GitHub. At the registrar:
+
+   | Type | Name | Value |
+   |---|---|---|
+   | A | @ | 185.199.108.153 |
+   | A | @ | 185.199.109.153 |
+   | A | @ | 185.199.110.153 |
+   | A | @ | 185.199.111.153 |
+   | CNAME | www | nelepope.github.io. |
+
+5. Install the Pages CMS GitHub App on the `hiap` repository from
+   https://github.com/marketplace/pages-cms, then sign in at https://app.pagescms.org.
+6. Invite your collaborator by email from *Settings → Collaborators* in Pages CMS.
+
+## Still to sort out
+
+- The site uses `hello@` and `press@healthisaprivilege.com`. Neither exists yet — either set them
+  up at the domain or swap them for real addresses in the CMS under *Contact*.
+- No link-preview image yet, so pasting the URL into WhatsApp or Instagram shows no picture. Add a
+  1200 × 630 image under *Search & sharing → Link preview image*.
+- The writer credit is blank, not assumed.

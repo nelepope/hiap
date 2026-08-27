@@ -1,27 +1,37 @@
+---
+# These three dashes tell GitHub Pages to build this file. Don't delete them —
+# the page would stop picking up content changes.
+#
+# This file is the LAYOUT. The words all live in _data/play.yml, and the easiest
+# way to change them is the CMS at app.pagescms.org. Anything in {{ curly braces }}
+# below is a slot that pulls its text from that file.
+---
+{% assign play = site.data.play %}
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Health Is a Privilege — a new play</title>
-<meta name="description" content="Health Is a Privilege — a new play. Venue confirmed, dates to be announced. Join the mailing list for first news of tickets.">
+<meta name="description" content="{{ play.seo.meta_description }}">
 <meta name="theme-color" content="#0d0f0e">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <link rel="canonical" href="https://healthisaprivilege.com/">
 
 <!-- Open Graph -->
 <meta property="og:title" content="Health Is a Privilege — a new play">
-<meta property="og:description" content="A new play. Venue confirmed, dates to be announced.">
+<meta property="og:description" content="{{ play.seo.share_description }}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://healthisaprivilege.com/">
 <meta property="og:site_name" content="Health Is a Privilege">
 <meta property="og:locale" content="en_GB">
-<!-- REPLACE: add Pics/og.jpg (1200×630) and uncomment the two lines below -->
-<!-- <meta property="og:image" content="https://healthisaprivilege.com/Pics/og.jpg"> -->
-<!-- <meta name="twitter:image" content="https://healthisaprivilege.com/Pics/og.jpg"> -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Health Is a Privilege — a new play">
-<meta name="twitter:description" content="A new play. Venue confirmed, dates to be announced.">
+<meta name="twitter:description" content="{{ play.seo.share_description }}">
+{% if play.seo.share_image != blank %}
+<meta property="og:image" content="https://healthisaprivilege.com{{ play.seo.share_image }}">
+<meta name="twitter:image" content="https://healthisaprivilege.com{{ play.seo.share_image }}">
+{% endif %}
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/site.webmanifest">
@@ -30,19 +40,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<!-- Structured data. REPLACE the TBC values once dates and venue address are confirmed. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TheaterEvent",
   "name": "Health Is a Privilege",
-  "description": "A new play.",
+  "description": {{ play.seo.share_description | jsonify }},
   "url": "https://healthisaprivilege.com/",
   "eventStatus": "https://schema.org/EventScheduled",
   "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
   "location": {
     "@type": "PerformingArtsTheater",
-    "name": "Venue to be announced",
+    "name": {% if play.tickets.venue_name != blank %}{{ play.tickets.venue_name | jsonify }}{% else %}"Venue to be announced"{% endif %},
     "address": { "@type": "PostalAddress", "addressLocality": "London", "addressCountry": "GB" }
   }
 }
@@ -85,15 +94,13 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Grain / vignette over the whole page */
   body::after {
     content: '';
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 100;
-    background:
-      radial-gradient(120% 90% at 50% 0%, transparent 40%, rgba(0,0,0,0.45) 100%);
+    background: radial-gradient(120% 90% at 50% 0%, transparent 40%, rgba(0,0,0,0.45) 100%);
     mix-blend-mode: multiply;
   }
 
@@ -101,11 +108,7 @@
 
   ::selection { background: var(--surgical); color: var(--void); }
 
-  :focus-visible {
-    outline: 2px solid var(--surgical);
-    outline-offset: 3px;
-    border-radius: 2px;
-  }
+  :focus-visible { outline: 2px solid var(--surgical); outline-offset: 3px; border-radius: 2px; }
 
   .skip {
     position: absolute;
@@ -131,6 +134,8 @@
     color: var(--bone-faint);
   }
 
+  /* Shown wherever content hasn't been filled in yet. Disappears on its own
+     once the field has something in it. */
   .tbc {
     color: var(--alarm);
     border-bottom: 1px dotted currentColor;
@@ -184,11 +189,7 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
-  .nav__links a {
-    text-decoration: none;
-    color: var(--bone-dim);
-    transition: color 0.3s var(--ease);
-  }
+  .nav__links a { text-decoration: none; color: var(--bone-dim); transition: color 0.3s var(--ease); }
   .nav__links a:hover { color: var(--surgical); }
 
   @media (max-width: 640px) {
@@ -209,8 +210,7 @@
 
   .hero__ecg {
     position: absolute;
-    left: 0;
-    right: 0;
+    left: 0; right: 0;
     top: 42%;
     width: 100%;
     height: clamp(120px, 22vw, 260px);
@@ -257,9 +257,7 @@
     text-stroke: 1px var(--surgical);
   }
 
-  @keyframes rise {
-    to { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
 
   .hero__logline {
     position: relative;
@@ -316,11 +314,7 @@
 
   #synopsis { background: var(--void-2); }
 
-  .synopsis__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: clamp(2rem, 5vw, 4rem);
-  }
+  .synopsis__grid { display: grid; grid-template-columns: 1fr; gap: clamp(2rem, 5vw, 4rem); }
   @media (min-width: 900px) {
     .synopsis__grid { grid-template-columns: 1.05fr 1fr; align-items: start; }
   }
@@ -377,10 +371,7 @@
     max-width: 54ch;
   }
 
-  .credits__group {
-    margin-top: clamp(2.5rem, 6vw, 4rem);
-    margin-bottom: 0.5rem;
-  }
+  .credits__group { margin-top: clamp(2.5rem, 6vw, 4rem); margin-bottom: 0.5rem; }
 
   /* ---------- tickets ---------- */
 
@@ -440,12 +431,7 @@
   .btn .arrow { transition: transform 0.35s var(--ease); }
   .btn:hover .arrow { transform: translateX(3px); }
 
-  .ticket-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 0.5rem;
-  }
+  .ticket-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
 
   /* ---------- gallery & press ---------- */
 
@@ -459,12 +445,7 @@
   .shot {
     position: relative;
     aspect-ratio: 4 / 3;
-    background:
-      repeating-linear-gradient(
-        135deg,
-        var(--void-2) 0 10px,
-        var(--void-3) 10px 20px
-      );
+    background: repeating-linear-gradient(135deg, var(--void-2) 0 10px, var(--void-3) 10px 20px);
     border: 1px solid var(--rule);
     display: flex;
     align-items: flex-end;
@@ -478,6 +459,7 @@
     display: grid;
     gap: clamp(2rem, 5vw, 3.5rem);
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    margin-bottom: clamp(3rem, 8vw, 5rem);
   }
   .quote blockquote {
     font-size: clamp(1.2rem, 2.4vw, 1.7rem);
@@ -490,18 +472,11 @@
   }
   .quote figcaption { margin-top: 0.9rem; }
 
-  .press-kit {
-    margin-top: clamp(3rem, 7vw, 4.5rem);
-    padding-top: clamp(1.5rem, 4vw, 2.5rem);
-    border-top: 1px solid var(--rule);
-  }
+  .press-kit { padding-top: clamp(1.5rem, 4vw, 2.5rem); border-top: 1px solid var(--rule); }
 
   /* ---------- footer ---------- */
 
-  footer {
-    padding: clamp(3rem, 7vw, 5rem) var(--gutter) clamp(2rem, 4vw, 3rem);
-    border-top: 1px solid var(--rule);
-  }
+  footer { padding: clamp(3rem, 7vw, 5rem) var(--gutter) clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--rule); }
 
   .footer__grid {
     display: grid;
@@ -509,7 +484,7 @@
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
     margin-bottom: clamp(2.5rem, 6vw, 4rem);
   }
-  .footer__grid a {
+  .footer__grid a, .footer__grid .val {
     display: block;
     font-family: var(--mono);
     font-size: 0.85rem;
@@ -532,11 +507,7 @@
 
   /* ---------- reveal on scroll ---------- */
 
-  .reveal {
-    opacity: 0;
-    transform: translateY(1.5rem);
-    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
-  }
+  .reveal { opacity: 0; transform: translateY(1.5rem); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
   .reveal.in { opacity: 1; transform: none; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -581,28 +552,31 @@
       <span class="l"><em>Privilege</em></span>
     </h1>
 
-    <!-- REPLACE: logline — one sentence, the hook -->
-    <p class="hero__logline">A new play about who gets to be well, and what it costs everybody else.</p>
+    {% if play.hero.logline != blank %}
+    <p class="hero__logline">{{ play.hero.logline }}</p>
+    {% endif %}
 
     <div class="hero__meta">
       <div>
         <span class="label">Venue</span>
-        <!-- REPLACE: venue name -->
-        <span class="val tbc">Venue name TBC</span>
+        <span class="val">{% if play.hero.venue_short != blank %}{{ play.hero.venue_short }}{% elsif play.tickets.venue_name != blank %}{{ play.tickets.venue_name }}{% else %}<span class="tbc">To be confirmed</span>{% endif %}</span>
       </div>
       <div>
         <span class="label">Dates</span>
-        <span class="val">To be announced</span>
+        <span class="val">{% if play.hero.dates_short != blank %}{{ play.hero.dates_short }}{% else %}To be announced{% endif %}</span>
       </div>
+      {% if play.hero.running_time != blank %}
       <div>
         <span class="label">Running time</span>
-        <!-- REPLACE -->
-        <span class="val tbc">00 mins</span>
+        <span class="val">{{ play.hero.running_time }}</span>
       </div>
+      {% endif %}
+      {% if play.hero.status != blank %}
       <div>
         <span class="label">Status</span>
-        <span class="val">In production</span>
+        <span class="val">{{ play.hero.status }}</span>
       </div>
+      {% endif %}
     </div>
   </header>
 
@@ -614,20 +588,19 @@
     </div>
 
     <div class="synopsis__grid">
-      <!-- REPLACE: the pull-quote — the sharpest line of the play, or a distillation of its argument -->
-      <p class="synopsis__pull reveal">A pull-quote goes here. One line, sharp enough to stop someone scrolling.</p>
+      {% if play.synopsis.pull_quote != blank %}
+      <p class="synopsis__pull reveal">{{ play.synopsis.pull_quote }}</p>
+      {% endif %}
 
       <div class="synopsis__body reveal">
-        <!-- REPLACE: synopsis, 2–3 paragraphs -->
-        <p><strong>Paragraph one.</strong> Set the situation up — who, where, and what has just gone wrong. Keep it present tense and concrete. This is the paragraph a programmer or a journalist will read and nothing else, so it has to carry the whole play.</p>
-        <p>Paragraph two. Turn the screw. What choice is forced, and what does it cost. Avoid summarising the ending — leave the question open.</p>
-        <p>Paragraph three, optional. What the play is really about underneath the plot, said once and lightly.</p>
+        {{ play.synopsis.body | markdownify }}
 
+        {% if play.synopsis.content_note != blank %}
         <p class="content-note">
           <span class="label">Content note</span><br>
-          <!-- REPLACE or delete this block -->
-          <span class="tbc">List content warnings here — or delete this block.</span>
+          {{ play.synopsis.content_note }}
         </p>
+        {% endif %}
       </div>
     </div>
   </section>
@@ -639,76 +612,35 @@
       <h2>Cast &amp; creatives</h2>
     </div>
 
-    <!-- REPLACE: every name and bio below. Delete rows you don't need, duplicate rows you do. -->
+    {% if play.cast.size > 0 %}
     <p class="label credits__group reveal" style="margin-top:0">Cast</p>
     <div class="credits reveal">
+      {% for member in play.cast %}
       <div class="credit">
-        <span class="label credit__role">Character name</span>
+        <span class="label credit__role">{{ member.role }}</span>
         <div>
-          <p class="credit__name tbc">Actor name</p>
-          <p class="credit__bio">One or two lines. Recent credits, training, anything that gives a booker confidence.</p>
+          <p class="credit__name">{% if member.name != blank %}{{ member.name }}{% else %}<span class="tbc">Casting to be announced</span>{% endif %}</p>
+          {% if member.bio != blank %}<p class="credit__bio">{{ member.bio }}</p>{% endif %}
         </div>
       </div>
-      <div class="credit">
-        <span class="label credit__role">Character name</span>
-        <div>
-          <p class="credit__name tbc">Actor name</p>
-          <p class="credit__bio">One or two lines.</p>
-        </div>
-      </div>
-      <div class="credit">
-        <span class="label credit__role">Character name</span>
-        <div>
-          <p class="credit__name tbc">Actor name</p>
-          <p class="credit__bio">One or two lines.</p>
-        </div>
-      </div>
-      <div class="credit">
-        <span class="label credit__role">Character name</span>
-        <div>
-          <p class="credit__name tbc">Actor name</p>
-          <p class="credit__bio">One or two lines.</p>
-        </div>
-      </div>
+      {% endfor %}
     </div>
+    {% endif %}
 
+    {% if play.creatives.size > 0 %}
     <p class="label credits__group reveal">Creative team</p>
     <div class="credits reveal">
+      {% for member in play.creatives %}
       <div class="credit">
-        <span class="label credit__role">Writer</span>
+        <span class="label credit__role">{{ member.role }}</span>
         <div>
-          <p class="credit__name tbc">Name</p>
-          <p class="credit__bio">Short bio.</p>
+          <p class="credit__name">{% if member.name != blank %}{{ member.name }}{% else %}<span class="tbc">To be announced</span>{% endif %}</p>
+          {% if member.bio != blank %}<p class="credit__bio">{{ member.bio }}</p>{% endif %}
         </div>
       </div>
-      <div class="credit">
-        <span class="label credit__role">Director</span>
-        <div>
-          <p class="credit__name tbc">Name</p>
-          <p class="credit__bio">Short bio.</p>
-        </div>
-      </div>
-      <div class="credit">
-        <span class="label credit__role">Producer</span>
-        <div><p class="credit__name tbc">Name</p></div>
-      </div>
-      <div class="credit">
-        <span class="label credit__role">Set &amp; costume designer</span>
-        <div><p class="credit__name tbc">Name</p></div>
-      </div>
-      <div class="credit">
-        <span class="label credit__role">Lighting designer</span>
-        <div><p class="credit__name tbc">Name</p></div>
-      </div>
-      <div class="credit">
-        <span class="label credit__role">Sound designer</span>
-        <div><p class="credit__name tbc">Name</p></div>
-      </div>
-      <div class="credit">
-        <span class="label credit__role">Stage manager</span>
-        <div><p class="credit__name tbc">Name</p></div>
-      </div>
+      {% endfor %}
     </div>
+    {% endif %}
   </section>
 
   <!-- ============ TICKETS ============ -->
@@ -720,25 +652,32 @@
 
     <div class="ticket-card reveal">
       <span class="label">Venue</span>
-      <!-- REPLACE: venue name and address -->
-      <p class="ticket-card__venue tbc">Venue name</p>
-      <p class="ticket-card__where tbc">Street, London POST CODE</p>
+      <p class="ticket-card__venue">{% if play.tickets.venue_name != blank %}{{ play.tickets.venue_name }}{% else %}<span class="tbc">Venue to be confirmed</span>{% endif %}</p>
+      {% if play.tickets.venue_address != blank %}
+      <p class="ticket-card__where">{{ play.tickets.venue_address }}</p>
+      {% endif %}
 
       <div class="ticket-card__dates">
         <span class="label">Performance dates</span>
-        <p>To be announced.</p>
+        <p>{% if play.tickets.dates_text != blank %}{{ play.tickets.dates_text }}{% else %}To be announced.{% endif %}</p>
+        {% if play.tickets.onsale_text != blank %}
         <span class="label" style="display:block;margin-top:1.25rem">On sale</span>
-        <p>Join the list below and you'll hear first.</p>
+        <p>{{ play.tickets.onsale_text }}</p>
+        {% endif %}
       </div>
 
       <div class="ticket-actions">
-        <!-- REPLACE: swap mailto for your mailing-list signup URL once you have one -->
-        <a class="btn btn--solid" href="mailto:hello@healthisaprivilege.com?subject=Mailing%20list%20—%20Health%20Is%20a%20Privilege&amp;body=Add%20me%20to%20the%20list%20for%20ticket%20news.">
-          Join the mailing list <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <!-- Uncomment once tickets are live, and point href at the box office -->
-        <!-- <a class="btn" href="#">Book tickets <span class="arrow" aria-hidden="true">→</span></a> -->
-        <a class="btn" href="mailto:hello@healthisaprivilege.com?subject=Group%20%26%20industry%20bookings">Group &amp; industry bookings</a>
+        {% if play.tickets.booking_url != blank %}
+        <a class="btn btn--solid" href="{{ play.tickets.booking_url }}">Book tickets <span class="arrow" aria-hidden="true">→</span></a>
+        {% endif %}
+
+        {% if play.tickets.mailing_list_url != blank %}
+        <a class="btn{% if play.tickets.booking_url == blank %} btn--solid{% endif %}" href="{{ play.tickets.mailing_list_url }}">Join the mailing list <span class="arrow" aria-hidden="true">→</span></a>
+        {% endif %}
+
+        {% if play.tickets.groups_email != blank %}
+        <a class="btn" href="mailto:{{ play.tickets.groups_email }}?subject=Group%20and%20industry%20bookings">Group &amp; industry bookings</a>
+        {% endif %}
       </div>
     </div>
   </section>
@@ -750,31 +689,38 @@
       <h2>Gallery &amp; press</h2>
     </div>
 
-    <!-- REPLACE: drop images into /Pics and swap each figure for <img src="/Pics/name.jpg" alt="..."> -->
+    {% if play.press.gallery.size > 0 %}
     <div class="gallery reveal">
-      <figure class="shot"><figcaption class="label">Production image 01</figcaption></figure>
-      <figure class="shot"><figcaption class="label">Production image 02</figcaption></figure>
-      <figure class="shot"><figcaption class="label">Production image 03</figcaption></figure>
+      {% for shot in play.press.gallery %}
+      <figure class="shot">
+        {% if shot.image != blank %}<img src="{{ shot.image }}" alt="{{ shot.alt | default: shot.caption }}" loading="lazy">{% endif %}
+        {% if shot.caption != blank %}<figcaption class="label">{{ shot.caption }}</figcaption>{% endif %}
+      </figure>
+      {% endfor %}
     </div>
+    {% endif %}
 
+    {% if play.press.quotes.size > 0 %}
     <div class="quotes reveal">
-      <!-- REPLACE: real review quotes only. Delete this whole block until you have them. -->
+      {% for item in play.press.quotes %}
       <figure class="quote">
-        <blockquote>Press quote slot — paste a real review pull-quote here once the play has been seen.</blockquote>
-        <figcaption class="label tbc">Publication</figcaption>
+        <blockquote>{{ item.quote }}</blockquote>
+        {% if item.publication != blank %}<figcaption class="label">{{ item.publication }}</figcaption>{% endif %}
       </figure>
-      <figure class="quote">
-        <blockquote>Second press quote slot.</blockquote>
-        <figcaption class="label tbc">Publication</figcaption>
-      </figure>
+      {% endfor %}
     </div>
+    {% endif %}
 
     <div class="press-kit reveal">
       <span class="label">For press</span>
-      <p style="margin-top:0.6rem;color:var(--bone-dim)">Production images, the press release and interview requests — get in touch and we'll send the pack over.</p>
+      {% if play.press.kit_text != blank %}
+      <p style="margin-top:0.6rem;color:var(--bone-dim)">{{ play.press.kit_text }}</p>
+      {% endif %}
+      {% if play.press.email != blank %}
       <div class="ticket-actions" style="margin-top:1.25rem">
-        <a class="btn" href="mailto:press@healthisaprivilege.com?subject=Press%20enquiry%20—%20Health%20Is%20a%20Privilege">Press enquiries <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn" href="mailto:{{ play.press.email }}?subject=Press%20enquiry%20—%20Health%20Is%20a%20Privilege">Press enquiries <span class="arrow" aria-hidden="true">→</span></a>
       </div>
+      {% endif %}
     </div>
   </section>
 
@@ -782,23 +728,30 @@
 
 <footer>
   <div class="footer__grid">
+    {% if play.contact.general_email != blank %}
     <div>
       <span class="label">General</span>
-      <a href="mailto:hello@healthisaprivilege.com">hello@healthisaprivilege.com</a>
+      <a href="mailto:{{ play.contact.general_email }}">{{ play.contact.general_email }}</a>
     </div>
+    {% endif %}
+    {% if play.contact.press_email != blank %}
     <div>
       <span class="label">Press</span>
-      <a href="mailto:press@healthisaprivilege.com">press@healthisaprivilege.com</a>
+      <a href="mailto:{{ play.contact.press_email }}">{{ play.contact.press_email }}</a>
     </div>
+    {% endif %}
+    {% if play.contact.instagram_url != blank %}
     <div>
       <span class="label">Social</span>
-      <!-- REPLACE or delete -->
-      <a href="#" class="tbc">Instagram</a>
+      <a href="{{ play.contact.instagram_url }}" rel="me">Instagram</a>
     </div>
+    {% endif %}
+    {% if play.tickets.venue_url != blank %}
     <div>
       <span class="label">Venue</span>
-      <a href="#" class="tbc">Venue website</a>
+      <a href="{{ play.tickets.venue_url }}">{% if play.tickets.venue_name != blank %}{{ play.tickets.venue_name }}{% else %}Venue website{% endif %}</a>
     </div>
+    {% endif %}
   </div>
 
   <div class="footer__base">
