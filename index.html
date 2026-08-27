@@ -244,7 +244,8 @@
     align-items: flex-start;
     justify-content: center;
     text-align: center;
-    padding: clamp(6rem, 22vh, 11rem) var(--gut) clamp(4rem, 10vh, 7rem);
+    /* As high as the content can sit without meeting the fixed nav. */
+    padding: clamp(5.75rem, 13vh, 7rem) var(--gut) clamp(4rem, 10vh, 7rem);
     isolation: isolate;
     clip-path: inset(0);
     background: var(--black);
