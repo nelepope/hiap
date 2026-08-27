@@ -66,14 +66,10 @@ content:
         label: The play
         type: object
         fields:
-          - name: pull_quote
-            label: Pull-quote
-            type: text
-            description: The big line on the left. The sharpest sentence in the play, or what it's really about.
           - name: body
             label: Synopsis
             type: rich-text
-            description: Two or three paragraphs. Bold and italics work. Don't give away the ending.
+            description: Shown on the second screen, over the photograph. Keep it short — a long synopsis will crowd the image.
           - name: content_note
             label: Content note
             type: text
@@ -85,6 +81,9 @@ content:
         type: object
         description: The biography section.
         fields:
+          - name: name
+            label: Name
+            type: string
           - name: portrait
             label: Portrait
             type: image

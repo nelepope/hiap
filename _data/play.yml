@@ -11,12 +11,15 @@ hero:
   status: In rehearsal
 
 synopsis:
-  pull_quote: ""
-  body: ""
+  body: >-
+    ‘Health is a Privilege’ is a one-woman experimental play portraying the
+    upbringing of a person with chronic pain who in the end finds the strength
+    to begin healing. Accompanied by live guitarist ____.
   content_note: ""
 
 about:
-  portrait: /Pics/bandaged-portrait.jpg
+  name: Simonetta Gibejova
+  portrait: /Pics/simonetta-portrait.jpg
   portrait_alt: Simonetta Gibejova, her head wrapped in bandages, looking towards the camera
   body: ""
 

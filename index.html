@@ -242,6 +242,80 @@
 
   @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
+  /* ---------------- panel (full-screen, image behind) ---------------- */
+
+  .panel {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: clamp(5rem, 12vh, 8rem) var(--gut);
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--black);
+  }
+  .panel__bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+  .panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(70% 65% at 50% 50%, rgba(0,0,0,0.40), rgba(0,0,0,0.72) 100%),
+      rgba(7,7,7,0.46);
+  }
+  .panel__inner { max-width: 44rem; }
+
+  .panel__venue { color: var(--white); letter-spacing: 0.14em; }
+  .panel__dates {
+    font-size: clamp(1.15rem, 2.9vw, 1.95rem);
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    margin-top: 0.35rem;
+    color: var(--white);
+  }
+  .panel__body {
+    color: var(--white);
+    max-width: 42ch;
+    margin: clamp(2.2rem, 6vh, 3.4rem) auto 0;
+    font-size: clamp(0.9rem, 1.35vw, 1.05rem);
+    line-height: 1.72;
+  }
+  .panel__body p + p { margin-top: 1.1em; }
+
+  /* Outlined pill — the one button that carries the whole page. */
+  .pill {
+    display: inline-block;
+    margin-top: clamp(2.2rem, 6vh, 3.4rem);
+    padding: 0.95rem 2.1rem;
+    border: 1px solid var(--white);
+    border-radius: 999px;
+    color: var(--white);
+    font-size: clamp(0.78rem, 1.15vw, 0.95rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.4s var(--ease), color 0.4s var(--ease);
+  }
+  .pill:hover { background: var(--white); color: var(--black); }
+
+  .panel__ig {
+    display: inline-block;
+    margin-top: clamp(2.2rem, 6vh, 3.2rem);
+    font-size: clamp(0.78rem, 1.15vw, 0.95rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--white);
+    opacity: 0.92;
+    transition: opacity 0.3s var(--ease);
+  }
+  .panel__ig:hover { opacity: 0.55; }
+  .panel__ig.tbc { opacity: 0.45; }
+
   /* ---------------- full-bleed image ---------------- */
 
   .plate { position: relative; height: 100svh; overflow: hidden; background: var(--off); }
@@ -305,9 +379,39 @@
 
   /* ---------------- bio ---------------- */
 
-  .bio { display: grid; gap: clamp(2rem, 5vw, 4rem); grid-template-columns: 1fr; align-items: start; }
-  @media (min-width: 900px) { .bio { grid-template-columns: 0.85fr 1.15fr; } }
-  .bio__portrait img { width: 100%; height: auto; filter: grayscale(1) contrast(1.04); }
+  .bio-sec { background: var(--black); }
+
+  .bio {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    grid-template-columns: 1fr;
+    align-items: center;
+    max-width: 1060px;
+    margin-inline: auto;
+  }
+  @media (min-width: 860px) { .bio { grid-template-columns: 1fr 0.95fr; } }
+
+  /* Right-aligned so the text sets a clean edge against the portrait. */
+  @media (min-width: 860px) { .bio__text { text-align: right; } }
+
+  .bio__name {
+    font-size: clamp(1.15rem, 2.5vw, 1.7rem);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.25;
+    margin-bottom: clamp(1.2rem, 3vh, 1.9rem);
+  }
+  .bio__body { color: var(--white); font-size: clamp(0.88rem, 1.3vw, 1.02rem); line-height: 1.72; }
+  .bio__body p + p { margin-top: 1.1em; }
+  .bio__body.tbc, .bio__body .tbc { color: var(--faint); }
+
+  .bio__portrait img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.04);
+  }
 
   /* ---------------- credits ---------------- */
 
@@ -397,7 +501,7 @@
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#press">Press</a></li>
   </ul>
-  <a href="{% if play.tickets.booking_url and play.tickets.booking_url != "" %}{{ play.tickets.booking_url }}{% else %}#tickets{% endif %}">{{ play.nav.cta | default: "Buy tickets" }}</a>
+  <a href="{% if play.tickets.booking_url and play.tickets.booking_url != "" %}{{ play.tickets.booking_url }}{% else %}#about{% endif %}">{{ play.nav.cta | default: "Buy tickets" }}</a>
 </nav>
 
 <main id="main">
@@ -428,26 +532,42 @@
   </figure>
   {% endif %}
 
-  <!-- ============ THE PLAY ============ -->
-  <section id="about">
-    <div class="wrap">
-      <div class="sec-head reveal"><span class="cap">01</span><h2>About</h2></div>
-      {% if play.synopsis.body == nil or play.synopsis.body == "" %}
-      {% if play.synopsis.pull_quote == nil or play.synopsis.pull_quote == "" %}
-      <p class="prose tbc reveal">The synopsis hasn't been written yet.</p>
-      {% endif %}
-      {% endif %}
-      <div class="two-col">
-        {% if play.synopsis.pull_quote and play.synopsis.pull_quote != "" %}
-        <p class="pull reveal">{{ play.synopsis.pull_quote }}</p>
+  <!-- ============ ABOUT / TICKETS PANEL ============ -->
+  <section id="about" class="panel">
+    {% if play.hero.background and play.hero.background != "" %}
+    <img class="panel__bg" src="{{ play.hero.background }}" alt="" aria-hidden="true" loading="lazy">
+    {% endif %}
+
+    <div class="panel__inner reveal">
+      <p class="cap panel__venue">{% if play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name }}{% elsif play.hero.venue_short and play.hero.venue_short != "" %}{{ play.hero.venue_short }}{% else %}Venue to be confirmed{% endif %}</p>
+
+      <p class="panel__dates">{% if play.tickets.dates_text and play.tickets.dates_text != "" %}{{ play.tickets.dates_text }}{% else %}Dates to be announced{% endif %}</p>
+
+      <div class="panel__body">
+        {% if play.synopsis.body and play.synopsis.body != "" %}
+        {{ play.synopsis.body | markdownify }}
+        {% else %}
+        <p class="tbc">The synopsis hasn't been written yet.</p>
         {% endif %}
-        <div class="prose reveal">
-          {{ play.synopsis.body | markdownify }}
-          {% if play.synopsis.content_note and play.synopsis.content_note != "" %}
-          <p class="note"><span class="cap">Content note</span><br>{{ play.synopsis.content_note }}</p>
-          {% endif %}
-        </div>
+        {% if play.synopsis.content_note and play.synopsis.content_note != "" %}
+        <p class="note" style="text-align:left">
+          <span class="cap">Content note</span><br>{{ play.synopsis.content_note }}
+        </p>
+        {% endif %}
       </div>
+
+      {% if play.tickets.booking_url and play.tickets.booking_url != "" %}
+      <a class="pill" href="{{ play.tickets.booking_url }}">{{ play.nav.cta | default: "Book tickets" }}</a>
+      {% elsif play.tickets.mailing_list_url and play.tickets.mailing_list_url != "" %}
+      <a class="pill" href="{{ play.tickets.mailing_list_url }}">Join the mailing list</a>
+      {% endif %}
+
+      <br>
+      {% if play.contact.instagram_url and play.contact.instagram_url != "" %}
+      <a class="panel__ig" href="{{ play.contact.instagram_url }}" rel="me">Instagram</a>
+      {% else %}
+      <span class="panel__ig tbc">Instagram to follow</span>
+      {% endif %}
     </div>
   </section>
 
@@ -471,25 +591,25 @@
   {% endif %}
 
   <!-- ============ SIMONETTA ============ -->
-  <section id="simonetta">
-    <div class="wrap">
-      <div class="sec-head reveal"><span class="cap">02</span><h2>Simonetta</h2></div>
-
-      <div class="bio">
-        {% if play.about.portrait and play.about.portrait != "" %}
-        <figure class="bio__portrait reveal">
-          <img src="{{ play.about.portrait }}" alt="{{ play.about.portrait_alt }}" loading="lazy">
-        </figure>
+  <section id="simonetta" class="bio-sec">
+    <div class="bio">
+      <div class="bio__text reveal">
+        <h2 class="bio__name">{{ play.about.name | default: "Simonetta Gibejova" }}</h2>
+        {% if play.about.body and play.about.body != "" %}
+        <div class="bio__body">{{ play.about.body | markdownify }}</div>
+        {% else %}
+        <p class="bio__body tbc">Simonetta's biography hasn't been written yet.</p>
         {% endif %}
-
-        <div class="reveal">
-          {% if play.about.body and play.about.body != "" %}
-          <div class="prose">{{ play.about.body | markdownify }}</div>
-          {% else %}
-          <p class="prose tbc">Simonetta's biography hasn't been written yet.</p>
-          {% endif %}
-        </div>
       </div>
+
+      {% if play.about.portrait and play.about.portrait != "" %}
+      <figure class="bio__portrait reveal">
+        <img src="{{ play.about.portrait }}" alt="{{ play.about.portrait_alt }}" loading="lazy">
+      </figure>
+      {% endif %}
+    </div>
+
+    <div class="wrap">
 
       {% assign named_cast = 0 %}
       {% for m in play.cast %}{% if m.name and m.name != "" %}{% assign named_cast = named_cast | plus: 1 %}{% endif %}{% endfor %}
@@ -526,44 +646,10 @@
     </div>
   </section>
 
-  <!-- ============ TICKETS ============ -->
-  <section id="tickets">
-    <div class="wrap">
-      <div class="sec-head reveal"><span class="cap">03</span><h2>Dates &amp; tickets</h2></div>
-
-      <div class="ticket reveal">
-        <span class="cap">Venue</span>
-        <p class="ticket__venue">{% if play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name }}{% else %}<span class="tbc">Venue to be confirmed</span>{% endif %}</p>
-        {% if play.tickets.venue_address and play.tickets.venue_address != "" %}<p class="ticket__where">{{ play.tickets.venue_address }}</p>{% endif %}
-
-        <div class="ticket__dates">
-          <span class="cap">Performance dates</span>
-          <p>{% if play.tickets.dates_text and play.tickets.dates_text != "" %}{{ play.tickets.dates_text }}{% else %}To be announced.{% endif %}</p>
-          {% if play.tickets.onsale_text and play.tickets.onsale_text != "" %}
-          <span class="cap" style="display:block;margin-top:1.4rem">On sale</span>
-          <p>{{ play.tickets.onsale_text }}</p>
-          {% endif %}
-        </div>
-
-        <div class="actions">
-          {% if play.tickets.booking_url and play.tickets.booking_url != "" %}
-          <a class="btn btn--solid" href="{{ play.tickets.booking_url }}">Book tickets <span class="arw" aria-hidden="true">→</span></a>
-          {% endif %}
-          {% if play.tickets.mailing_list_url and play.tickets.mailing_list_url != "" %}
-          <a class="btn{% if play.tickets.booking_url == nil or play.tickets.booking_url == "" %} btn--solid{% endif %}" href="{{ play.tickets.mailing_list_url }}">Join the mailing list <span class="arw" aria-hidden="true">→</span></a>
-          {% endif %}
-          {% if play.tickets.groups_email and play.tickets.groups_email != "" %}
-          <a class="btn" href="mailto:{{ play.tickets.groups_email }}?subject=Group%20and%20industry%20bookings">Group &amp; industry bookings</a>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ============ GALLERY & PRESS ============ -->
   <section id="gallery">
     <div class="wrap">
-      <div class="sec-head reveal"><span class="cap">04</span><h2>Gallery</h2></div>
+      <div class="sec-head reveal"><span class="cap">03</span><h2>Gallery</h2></div>
 
       {% if play.press.gallery.size > 0 %}
       <div class="grid reveal">
@@ -581,7 +667,7 @@
   <!-- ============ PRESS ============ -->
   <section id="press">
     <div class="wrap">
-      <div class="sec-head reveal"><span class="cap">05</span><h2>Press</h2></div>
+      <div class="sec-head reveal"><span class="cap">04</span><h2>Press</h2></div>
 
       {% if play.press.quotes.size > 0 %}
       <div class="quotes reveal" style="margin-top:0">
@@ -618,6 +704,9 @@
       {% endif %}
       {% if play.contact.press_email and play.contact.press_email != "" %}
       <div><span class="cap">Press</span><a href="mailto:{{ play.contact.press_email }}">{{ play.contact.press_email }}</a></div>
+      {% endif %}
+      {% if play.tickets.groups_email and play.tickets.groups_email != "" %}
+      <div><span class="cap">Group bookings</span><a href="mailto:{{ play.tickets.groups_email }}?subject=Group%20and%20industry%20bookings">{{ play.tickets.groups_email }}</a></div>
       {% endif %}
       {% if play.contact.instagram_url and play.contact.instagram_url != "" %}
       <div><span class="cap">Social</span><a href="{{ play.contact.instagram_url }}" rel="me">Instagram</a></div>
