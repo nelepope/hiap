@@ -727,44 +727,42 @@
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Background video: plays for one second on load, holds, then advances
-  // only while you are actually scrolling, and stops for good once the About
-  // text reaches the middle of the screen.
+  // Background video. Plays for one second on load, then stops playing
+  // altogether: from there its frame is driven by scroll position, so it
+  // advances exactly as far as you scroll and freezes the instant you stop.
+  // Timers cannot do this — trackpad momentum keeps firing scroll events for
+  // a second or more after you lift your fingers.
   const vid = document.getElementById('bg-video');
   if (vid && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const target = document.querySelector('#about .panel__inner');
-    let phase = 'intro';        // intro -> held -> scrolling <-> idle -> done
-    let idle;
+    const inner = document.querySelector('#about .panel__inner');
+    const INTRO = 1;                     // seconds played on load
+    let stopAt = null;                   // scroll position where it freezes
 
-    const reachedMiddle = () => {
-      if (!target) return false;
-      const r = target.getBoundingClientRect();
-      return (r.top + r.height / 2) <= window.innerHeight * 0.55;
+    // Scroll position at which the About text reaches the middle of the screen.
+    const measure = () => {
+      if (!inner) { stopAt = null; return; }
+      const r = inner.getBoundingClientRect();
+      const centreInDoc = window.scrollY + r.top + r.height / 2;
+      stopAt = Math.max(1, centreInDoc - window.innerHeight * 0.55);
     };
 
-    const play  = () => vid.play().catch(() => {});
-    const pause = () => vid.pause();
+    const scrub = () => {
+      if (stopAt === null || !isFinite(vid.duration)) return;
+      const progress = Math.min(1, Math.max(0, window.scrollY / stopAt));
+      const t = INTRO + (vid.duration - INTRO) * progress;
+      if (Math.abs(vid.currentTime - t) > 0.02) vid.currentTime = t;
+    };
 
-    play();
-    setTimeout(() => { if (phase === 'intro') { phase = 'held'; pause(); } }, 1000);
+    vid.play().catch(() => {});
+    setTimeout(() => {
+      vid.pause();
+      measure();
+      scrub();
+    }, INTRO * 1000);
 
-    // No requestAnimationFrame here: a backgrounded tab never grants a frame,
-    // and one rect read per scroll event is cheap enough to do inline.
-    window.addEventListener('scroll', () => {
-      clearTimeout(idle);
-
-      if (reachedMiddle()) {
-        if (phase !== 'done') { phase = 'done'; pause(); }
-        return;
-      }
-
-      if (phase !== 'intro') { phase = 'scrolling'; play(); }
-
-      // Scrolling has stopped moving — hold the frame until it starts again.
-      idle = setTimeout(() => {
-        if (phase === 'scrolling') { phase = 'idle'; pause(); }
-      }, 140);
-    }, { passive: true });
+    window.addEventListener('scroll', scrub, { passive: true });
+    window.addEventListener('resize', () => { measure(); scrub(); });
+    vid.addEventListener('loadedmetadata', measure);
   }
 
   // Nav retracts while scrolling down, returns on the way up
