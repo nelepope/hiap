@@ -28,7 +28,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Health Is a Privilege — a new play">
 <meta name="twitter:description" content="{{ play.seo.share_description }}">
-{% if play.seo.share_image != blank %}
+{% if play.seo.share_image and play.seo.share_image != "" %}
 <meta property="og:image" content="https://healthisaprivilege.com{{ play.seo.share_image }}">
 <meta name="twitter:image" content="https://healthisaprivilege.com{{ play.seo.share_image }}">
 {% endif %}
@@ -51,7 +51,7 @@
   "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
   "location": {
     "@type": "PerformingArtsTheater",
-    "name": {% if play.tickets.venue_name != blank %}{{ play.tickets.venue_name | jsonify }}{% else %}"Venue to be announced"{% endif %},
+    "name": {% if play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name | jsonify }}{% else %}"Venue to be announced"{% endif %},
     "address": { "@type": "PostalAddress", "addressLocality": "London", "addressCountry": "GB" }
   }
 }
@@ -552,26 +552,26 @@
       <span class="l"><em>Privilege</em></span>
     </h1>
 
-    {% if play.hero.logline != blank %}
+    {% if play.hero.logline and play.hero.logline != "" %}
     <p class="hero__logline">{{ play.hero.logline }}</p>
     {% endif %}
 
     <div class="hero__meta">
       <div>
         <span class="label">Venue</span>
-        <span class="val">{% if play.hero.venue_short != blank %}{{ play.hero.venue_short }}{% elsif play.tickets.venue_name != blank %}{{ play.tickets.venue_name }}{% else %}<span class="tbc">To be confirmed</span>{% endif %}</span>
+        <span class="val">{% if play.hero.venue_short and play.hero.venue_short != "" %}{{ play.hero.venue_short }}{% elsif play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name }}{% else %}<span class="tbc">To be confirmed</span>{% endif %}</span>
       </div>
       <div>
         <span class="label">Dates</span>
-        <span class="val">{% if play.hero.dates_short != blank %}{{ play.hero.dates_short }}{% else %}To be announced{% endif %}</span>
+        <span class="val">{% if play.hero.dates_short and play.hero.dates_short != "" %}{{ play.hero.dates_short }}{% else %}To be announced{% endif %}</span>
       </div>
-      {% if play.hero.running_time != blank %}
+      {% if play.hero.running_time and play.hero.running_time != "" %}
       <div>
         <span class="label">Running time</span>
         <span class="val">{{ play.hero.running_time }}</span>
       </div>
       {% endif %}
-      {% if play.hero.status != blank %}
+      {% if play.hero.status and play.hero.status != "" %}
       <div>
         <span class="label">Status</span>
         <span class="val">{{ play.hero.status }}</span>
@@ -588,14 +588,14 @@
     </div>
 
     <div class="synopsis__grid">
-      {% if play.synopsis.pull_quote != blank %}
+      {% if play.synopsis.pull_quote and play.synopsis.pull_quote != "" %}
       <p class="synopsis__pull reveal">{{ play.synopsis.pull_quote }}</p>
       {% endif %}
 
       <div class="synopsis__body reveal">
         {{ play.synopsis.body | markdownify }}
 
-        {% if play.synopsis.content_note != blank %}
+        {% if play.synopsis.content_note and play.synopsis.content_note != "" %}
         <p class="content-note">
           <span class="label">Content note</span><br>
           {{ play.synopsis.content_note }}
@@ -619,8 +619,8 @@
       <div class="credit">
         <span class="label credit__role">{{ member.role }}</span>
         <div>
-          <p class="credit__name">{% if member.name != blank %}{{ member.name }}{% else %}<span class="tbc">Casting to be announced</span>{% endif %}</p>
-          {% if member.bio != blank %}<p class="credit__bio">{{ member.bio }}</p>{% endif %}
+          <p class="credit__name">{% if member.name and member.name != "" %}{{ member.name }}{% else %}<span class="tbc">Casting to be announced</span>{% endif %}</p>
+          {% if member.bio and member.bio != "" %}<p class="credit__bio">{{ member.bio }}</p>{% endif %}
         </div>
       </div>
       {% endfor %}
@@ -634,8 +634,8 @@
       <div class="credit">
         <span class="label credit__role">{{ member.role }}</span>
         <div>
-          <p class="credit__name">{% if member.name != blank %}{{ member.name }}{% else %}<span class="tbc">To be announced</span>{% endif %}</p>
-          {% if member.bio != blank %}<p class="credit__bio">{{ member.bio }}</p>{% endif %}
+          <p class="credit__name">{% if member.name and member.name != "" %}{{ member.name }}{% else %}<span class="tbc">To be announced</span>{% endif %}</p>
+          {% if member.bio and member.bio != "" %}<p class="credit__bio">{{ member.bio }}</p>{% endif %}
         </div>
       </div>
       {% endfor %}
@@ -652,30 +652,30 @@
 
     <div class="ticket-card reveal">
       <span class="label">Venue</span>
-      <p class="ticket-card__venue">{% if play.tickets.venue_name != blank %}{{ play.tickets.venue_name }}{% else %}<span class="tbc">Venue to be confirmed</span>{% endif %}</p>
-      {% if play.tickets.venue_address != blank %}
+      <p class="ticket-card__venue">{% if play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name }}{% else %}<span class="tbc">Venue to be confirmed</span>{% endif %}</p>
+      {% if play.tickets.venue_address and play.tickets.venue_address != "" %}
       <p class="ticket-card__where">{{ play.tickets.venue_address }}</p>
       {% endif %}
 
       <div class="ticket-card__dates">
         <span class="label">Performance dates</span>
-        <p>{% if play.tickets.dates_text != blank %}{{ play.tickets.dates_text }}{% else %}To be announced.{% endif %}</p>
-        {% if play.tickets.onsale_text != blank %}
+        <p>{% if play.tickets.dates_text and play.tickets.dates_text != "" %}{{ play.tickets.dates_text }}{% else %}To be announced.{% endif %}</p>
+        {% if play.tickets.onsale_text and play.tickets.onsale_text != "" %}
         <span class="label" style="display:block;margin-top:1.25rem">On sale</span>
         <p>{{ play.tickets.onsale_text }}</p>
         {% endif %}
       </div>
 
       <div class="ticket-actions">
-        {% if play.tickets.booking_url != blank %}
+        {% if play.tickets.booking_url and play.tickets.booking_url != "" %}
         <a class="btn btn--solid" href="{{ play.tickets.booking_url }}">Book tickets <span class="arrow" aria-hidden="true">→</span></a>
         {% endif %}
 
-        {% if play.tickets.mailing_list_url != blank %}
-        <a class="btn{% if play.tickets.booking_url == blank %} btn--solid{% endif %}" href="{{ play.tickets.mailing_list_url }}">Join the mailing list <span class="arrow" aria-hidden="true">→</span></a>
+        {% if play.tickets.mailing_list_url and play.tickets.mailing_list_url != "" %}
+        <a class="btn{% if play.tickets.booking_url == nil or play.tickets.booking_url == "" %} btn--solid{% endif %}" href="{{ play.tickets.mailing_list_url }}">Join the mailing list <span class="arrow" aria-hidden="true">→</span></a>
         {% endif %}
 
-        {% if play.tickets.groups_email != blank %}
+        {% if play.tickets.groups_email and play.tickets.groups_email != "" %}
         <a class="btn" href="mailto:{{ play.tickets.groups_email }}?subject=Group%20and%20industry%20bookings">Group &amp; industry bookings</a>
         {% endif %}
       </div>
@@ -693,8 +693,8 @@
     <div class="gallery reveal">
       {% for shot in play.press.gallery %}
       <figure class="shot">
-        {% if shot.image != blank %}<img src="{{ shot.image }}" alt="{{ shot.alt | default: shot.caption }}" loading="lazy">{% endif %}
-        {% if shot.caption != blank %}<figcaption class="label">{{ shot.caption }}</figcaption>{% endif %}
+        {% if shot.image and shot.image != "" %}<img src="{{ shot.image }}" alt="{{ shot.alt | default: shot.caption }}" loading="lazy">{% endif %}
+        {% if shot.caption and shot.caption != "" %}<figcaption class="label">{{ shot.caption }}</figcaption>{% endif %}
       </figure>
       {% endfor %}
     </div>
@@ -705,7 +705,7 @@
       {% for item in play.press.quotes %}
       <figure class="quote">
         <blockquote>{{ item.quote }}</blockquote>
-        {% if item.publication != blank %}<figcaption class="label">{{ item.publication }}</figcaption>{% endif %}
+        {% if item.publication and item.publication != "" %}<figcaption class="label">{{ item.publication }}</figcaption>{% endif %}
       </figure>
       {% endfor %}
     </div>
@@ -713,10 +713,10 @@
 
     <div class="press-kit reveal">
       <span class="label">For press</span>
-      {% if play.press.kit_text != blank %}
+      {% if play.press.kit_text and play.press.kit_text != "" %}
       <p style="margin-top:0.6rem;color:var(--bone-dim)">{{ play.press.kit_text }}</p>
       {% endif %}
-      {% if play.press.email != blank %}
+      {% if play.press.email and play.press.email != "" %}
       <div class="ticket-actions" style="margin-top:1.25rem">
         <a class="btn" href="mailto:{{ play.press.email }}?subject=Press%20enquiry%20—%20Health%20Is%20a%20Privilege">Press enquiries <span class="arrow" aria-hidden="true">→</span></a>
       </div>
@@ -728,28 +728,28 @@
 
 <footer>
   <div class="footer__grid">
-    {% if play.contact.general_email != blank %}
+    {% if play.contact.general_email and play.contact.general_email != "" %}
     <div>
       <span class="label">General</span>
       <a href="mailto:{{ play.contact.general_email }}">{{ play.contact.general_email }}</a>
     </div>
     {% endif %}
-    {% if play.contact.press_email != blank %}
+    {% if play.contact.press_email and play.contact.press_email != "" %}
     <div>
       <span class="label">Press</span>
       <a href="mailto:{{ play.contact.press_email }}">{{ play.contact.press_email }}</a>
     </div>
     {% endif %}
-    {% if play.contact.instagram_url != blank %}
+    {% if play.contact.instagram_url and play.contact.instagram_url != "" %}
     <div>
       <span class="label">Social</span>
       <a href="{{ play.contact.instagram_url }}" rel="me">Instagram</a>
     </div>
     {% endif %}
-    {% if play.tickets.venue_url != blank %}
+    {% if play.tickets.venue_url and play.tickets.venue_url != "" %}
     <div>
       <span class="label">Venue</span>
-      <a href="{{ play.tickets.venue_url }}">{% if play.tickets.venue_name != blank %}{{ play.tickets.venue_name }}{% else %}Venue website{% endif %}</a>
+      <a href="{{ play.tickets.venue_url }}">{% if play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name }}{% else %}Venue website{% endif %}</a>
     </div>
     {% endif %}
   </div>
