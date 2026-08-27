@@ -177,7 +177,7 @@
     clip-path: inset(0);
   }
 
-  /* Full-bleed still behind the title, dimmed so the type stays legible. */
+  /* Full-bleed still, pinned to the viewport so the text scrolls over it. */
   .hero__bg {
     position: fixed;
     top: 0;
@@ -186,17 +186,6 @@
     width: 100vw;
     height: 100svh;
     object-fit: cover;
-  }
-  .hero::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100svh;
-    z-index: -1;
-    pointer-events: none;
-    background:
-      radial-gradient(70% 65% at 50% 50%, rgba(0,0,0,0.34), rgba(0,0,0,0.68) 100%),
-      rgba(7,7,7,0.42);
   }
   /* No image set — fall back to plain black rather than a grey void. */
   .hero--plain { background: var(--black); }
@@ -251,26 +240,15 @@
     position: relative;
     min-height: 100svh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     text-align: center;
-    padding: clamp(5rem, 12vh, 8rem) var(--gut);
+    padding: clamp(6rem, 22vh, 11rem) var(--gut) clamp(4rem, 10vh, 7rem);
     isolation: isolate;
     clip-path: inset(0);
     background: var(--black);
   }
   .panel__bg { position: fixed; top: 0; left: 0; z-index: -2; width: 100vw; height: 100svh; object-fit: cover; }
-  .panel::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100svh;
-    z-index: -1;
-    pointer-events: none;
-    background:
-      radial-gradient(70% 65% at 50% 50%, rgba(0,0,0,0.40), rgba(0,0,0,0.72) 100%),
-      rgba(7,7,7,0.46);
-  }
   .panel__inner { max-width: 44rem; }
 
   .panel__venue { color: var(--white); letter-spacing: 0.14em; }
@@ -485,7 +463,7 @@
       transition-duration: 0.01ms !important;
     }
     .wordmark, .hero__byline, .hero__tagline, .hero__meta, .reveal { opacity: 1; transform: none; }
-    .hero__bg, .panel__bg, .hero::before, .panel::before {
+    .hero__bg, .panel__bg {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     }
   }
