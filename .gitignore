@@ -2,12 +2,11 @@
 .claude/
 .preview/
 
-# Working material — never publish these
+# Working material — never published
 Brand /
 *.pdf
 *.dng
 *.DNG
-*.mp4
 *.mov
 
 # Pics/ is a working folder. Nothing in it is published unless it is
@@ -19,5 +18,6 @@ Pics/**
 !Pics/bandaged-portrait.jpg
 !Pics/rehearsal-room.jpg
 !Pics/chair-and-light.jpg
-!Pics/hero-sofa.jpg
 !Pics/simonetta-portrait.jpg
+!Pics/hero-poster.jpg
+!Pics/hero-video.mp4

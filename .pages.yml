@@ -40,6 +40,10 @@ content:
             label: Background image (phones)
             type: image
             description: Optional. A tall, portrait-shaped version of the background, used on phones. Without one the wide image is used and phones only see a narrow strip of the middle of it.
+          - name: background_video
+            label: Background video
+            type: file
+            description: Optional. An MP4 that replaces the background image. It plays for two seconds on load, then again as you scroll down to the About panel. The image above is still used as the poster frame while it loads.
           - name: byline
             label: Byline
             type: string

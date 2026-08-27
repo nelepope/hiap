@@ -3,8 +3,9 @@ nav:
 
 hero:
   byline: One woman show by Simonetta Gibejova
-  background: /Pics/hero-sofa.jpg
+  background: /Pics/hero-poster.jpg
   background_mobile: ""
+  background_video: /Pics/hero-video.mp4
   tagline: A glimpse into the lonely life of a traumatised person
   venue_short: ""
   dates_short: ""
