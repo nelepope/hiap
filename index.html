@@ -173,22 +173,25 @@
     text-align: center;
     padding: clamp(4rem, 10vh, 7rem) var(--gut);
     isolation: isolate;
-    overflow: hidden;
+    /* Clips the fixed background to this section. */
+    clip-path: inset(0);
   }
 
   /* Full-bleed still behind the title, dimmed so the type stays legible. */
   .hero__bg {
-    position: absolute;
-    inset: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: -2;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100svh;
     object-fit: cover;
   }
   .hero::before {
     content: '';
-    position: absolute;
-    inset: 0;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100svh;
     z-index: -1;
     pointer-events: none;
     background:
@@ -222,7 +225,7 @@
     letter-spacing: 0.13em;
     text-transform: uppercase;
     line-height: 1.9;
-    max-width: 46ch;
+    max-width: min(100%, 62ch);
     opacity: 0;
     animation: rise 1.5s var(--ease) 0.85s forwards;
   }
@@ -253,14 +256,15 @@
     text-align: center;
     padding: clamp(5rem, 12vh, 8rem) var(--gut);
     isolation: isolate;
-    overflow: hidden;
+    clip-path: inset(0);
     background: var(--black);
   }
-  .panel__bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+  .panel__bg { position: fixed; top: 0; left: 0; z-index: -2; width: 100vw; height: 100svh; object-fit: cover; }
   .panel::before {
     content: '';
-    position: absolute;
-    inset: 0;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100svh;
     z-index: -1;
     pointer-events: none;
     background:
@@ -315,12 +319,6 @@
   }
   .panel__ig:hover { opacity: 0.55; }
   .panel__ig.tbc { opacity: 0.45; }
-
-  /* ---------------- full-bleed image ---------------- */
-
-  .plate { position: relative; height: 100svh; overflow: hidden; background: var(--off); }
-  .plate img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.04); }
-  .plate figcaption { position: absolute; left: var(--gut); bottom: clamp(1.6rem, 4vh, 2.6rem); }
 
   /* ---------------- sections ---------------- */
 
@@ -487,6 +485,9 @@
       transition-duration: 0.01ms !important;
     }
     .wordmark, .hero__byline, .hero__tagline, .hero__meta, .reveal { opacity: 1; transform: none; }
+    .hero__bg, .panel__bg, .hero::before, .panel::before {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    }
   }
 </style>
 </head>
@@ -523,14 +524,6 @@
     {% endif %}
   </header>
 
-  <!-- ============ FIRST PLATE ============ -->
-  {% assign lead = play.press.gallery[0] %}
-  {% if lead.image and lead.image != "" %}
-  <figure class="plate">
-    <img src="{{ lead.image }}" alt="{{ lead.alt }}">
-    {% if lead.caption and lead.caption != "" %}<figcaption class="cap">{{ lead.caption }}</figcaption>{% endif %}
-  </figure>
-  {% endif %}
 
   <!-- ============ ABOUT / TICKETS PANEL ============ -->
   <section id="about" class="panel">
@@ -562,11 +555,8 @@
       <a class="pill" href="{{ play.tickets.mailing_list_url }}">Join the mailing list</a>
       {% endif %}
 
-      <br>
       {% if play.contact.instagram_url and play.contact.instagram_url != "" %}
-      <a class="panel__ig" href="{{ play.contact.instagram_url }}" rel="me">Instagram</a>
-      {% else %}
-      <span class="panel__ig tbc">Instagram to follow</span>
+      <br><a class="panel__ig" href="{{ play.contact.instagram_url }}" rel="me">Instagram</a>
       {% endif %}
     </div>
   </section>
@@ -581,14 +571,6 @@
   </section>
   {% endif %}
 
-  <!-- ============ SECOND PLATE ============ -->
-  {% assign mid = play.press.gallery[1] %}
-  {% if mid.image and mid.image != "" %}
-  <figure class="plate">
-    <img src="{{ mid.image }}" alt="{{ mid.alt }}">
-    {% if mid.caption and mid.caption != "" %}<figcaption class="cap">{{ mid.caption }}</figcaption>{% endif %}
-  </figure>
-  {% endif %}
 
   <!-- ============ SIMONETTA ============ -->
   <section id="simonetta" class="bio-sec">

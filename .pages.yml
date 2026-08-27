@@ -189,7 +189,7 @@ content:
             label: Production images
             type: object
             list: true
-            description: The first two also appear full-screen between sections, so put your strongest images first. Three across looks best in the grid, but any number works.
+            description: Shown as a grid in the Gallery section. Three across looks best, but any number works.
             fields:
               - name: image
                 label: Image
