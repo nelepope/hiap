@@ -138,7 +138,11 @@
     gap: 1rem clamp(1rem, 3vw, 2.5rem);
     padding: clamp(1.1rem, 4vh, 2.2rem) var(--gut);
     background: linear-gradient(to bottom, rgba(7,7,7,0.55), rgba(7,7,7,0));
+    transition: transform 0.45s var(--ease);
   }
+  /* Retracts on the way down so it never sits over the panel text, and
+     comes straight back the moment you scroll up. */
+  .nav.is-hidden { transform: translateY(-100%); }
   .nav__menu {
     display: flex;
     flex: 1;
@@ -213,7 +217,6 @@
     /* Labels are small by design, but not below ~12.5px on a phone. */
     .cap { font-size: 0.78rem; }
     .hero { padding-top: 6rem; }
-    .panel { padding-top: 6.5rem; }
     .foot-grid a { padding: 0.35rem 0; }
     .panel__ig { padding: 0.5rem 0; }
   }
@@ -301,8 +304,10 @@
     align-items: flex-start;
     justify-content: center;
     text-align: center;
-    /* As high as the content can sit without meeting the fixed nav. */
-    padding: clamp(5.75rem, 13vh, 7rem) var(--gut) clamp(4rem, 10vh, 7rem);
+    /* Flush with the top of the section. Because the hero text is centred
+       and both blocks are a similar height, this lands the About text in
+       the middle of the screen exactly as the hero text leaves it. */
+    padding: 0 var(--gut) clamp(4rem, 10vh, 7rem);
     background: rgba(7, 7, 7, 0.4);
   }
   .panel__inner { max-width: 44rem; }
@@ -740,7 +745,7 @@
     const pause = () => vid.pause();
 
     play();
-    setTimeout(() => { if (phase === 'intro') { phase = 'held'; pause(); } }, 2000);
+    setTimeout(() => { if (phase === 'intro') { phase = 'held'; pause(); } }, 1000);
 
     let ticking = false;
     window.addEventListener('scroll', () => {
@@ -757,6 +762,24 @@
     }, { passive: true });
   }
 
+  // Nav retracts while scrolling down, returns on the way up
+  (() => {
+    const bar = document.querySelector('.nav');
+    let last = window.scrollY, ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        const y = window.scrollY;
+        if (!bar.classList.contains('is-open')) {
+          bar.classList.toggle('is-hidden', y > last && y > 120);
+        }
+        last = y;
+      });
+    }, { passive: true });
+  })();
+
   // Hamburger menu
   const nav = document.querySelector('.nav');
   const toggle = nav.querySelector('.nav__toggle');
@@ -764,6 +787,7 @@
 
   const setMenu = (open) => {
     nav.classList.toggle('is-open', open);
+    if (open) nav.classList.remove('is-hidden');
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     document.body.style.overflow = open ? 'hidden' : '';
