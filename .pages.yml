@@ -22,14 +22,18 @@ content:
         label: Top of the page
         type: object
         fields:
+          - name: background
+            label: Background image
+            type: image
+            description: Fills the whole first screen behind the title. It is dimmed automatically, so pick something with a clear middle. Leave empty for plain black.
           - name: byline
             label: Byline
             type: string
-            description: Shown under the handwritten title. e.g. A play by Simonetta Gibejova.
+            description: Sits above the handwritten title. e.g. A new play by Simonetta Gibejova.
           - name: tagline
             label: Tagline
             type: text
-            description: The line under the byline. Set in capitals by the design, so type it normally.
+            description: The line under the handwritten title. Set in capitals by the design, so type it normally.
           - name: venue_short
             label: Venue (short)
             type: string

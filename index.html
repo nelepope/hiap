@@ -45,7 +45,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
 
 <script type="application/ld+json">
 {
@@ -79,6 +79,7 @@
     --rule-soft: rgba(242,239,233,0.08);
 
     --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
     --gut:  clamp(1.4rem, 5vw, 5rem);
   }
@@ -108,11 +109,12 @@
   }
   .skip:focus { left: 0; }
 
-  /* Small letterspaced caps — the only supporting voice on the page. */
+  /* Small letterspaced mono caps — the only supporting voice on the page. */
   .cap {
+    font-family: var(--mono);
     font-size: clamp(0.62rem, 1.05vw, 0.74rem);
     font-weight: 400;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--dim);
   }
@@ -132,51 +134,74 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: clamp(4rem, 11vh, 7rem) var(--gut) clamp(5.5rem, 13vh, 8rem);
+    padding: clamp(4rem, 10vh, 7rem) var(--gut);
+    isolation: isolate;
+    overflow: hidden;
   }
-  .hero::after {
+
+  /* Full-bleed still behind the title, dimmed so the type stays legible. */
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero::before {
     content: '';
     position: absolute;
     inset: 0;
+    z-index: -1;
     pointer-events: none;
-    background: radial-gradient(75% 60% at 50% 42%, transparent 30%, rgba(0,0,0,0.75) 100%);
+    background:
+      radial-gradient(70% 65% at 50% 50%, rgba(0,0,0,0.34), rgba(0,0,0,0.68) 100%),
+      rgba(7,7,7,0.42);
+  }
+  /* No image set — fall back to plain black rather than a grey void. */
+  .hero--plain { background: var(--black); }
+
+  .hero__byline {
+    color: var(--white);
+    font-size: clamp(0.68rem, 1.15vw, 0.86rem);
+    letter-spacing: 0.16em;
+    opacity: 0;
+    animation: rise 1.5s var(--ease) 0.15s forwards;
   }
 
   .wordmark {
-    width: min(640px, 74vw);
+    width: clamp(140px, 13vw, 200px);
     height: auto;
+    margin: clamp(2.6rem, 6.5vh, 4.5rem) 0;
     opacity: 0;
-    animation: rise 2.4s var(--ease) 0.25s forwards;
+    animation: rise 2s var(--ease) 0.45s forwards;
   }
 
-  .hero__byline { margin-top: clamp(2rem, 5vh, 3.2rem); opacity: 0; animation: rise 1.6s var(--ease) 1.15s forwards; }
-
   .hero__tagline {
-    margin-top: 1.4rem;
-    max-width: 30ch;
-    font-size: clamp(0.95rem, 1.9vw, 1.22rem);
-    font-weight: 200;
-    letter-spacing: 0.12em;
+    color: var(--white);
+    font-family: var(--mono);
+    font-size: clamp(0.66rem, 1.1vw, 0.82rem);
+    font-weight: 400;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
-    line-height: 1.75;
+    line-height: 1.9;
+    max-width: 46ch;
     opacity: 0;
-    animation: rise 1.6s var(--ease) 1.45s forwards;
+    animation: rise 1.5s var(--ease) 0.85s forwards;
   }
 
   .hero__meta {
     position: absolute;
     left: var(--gut); right: var(--gut);
-    bottom: clamp(1.6rem, 4vh, 2.6rem);
-    z-index: 1;
+    bottom: clamp(1.5rem, 4vh, 2.4rem);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0.45rem clamp(1.2rem, 4vw, 2.6rem);
-    padding-top: 1.1rem;
-    border-top: 1px solid var(--rule);
+    gap: 0.4rem clamp(1.2rem, 4vw, 2.6rem);
     opacity: 0;
-    animation: rise 1.6s var(--ease) 1.75s forwards;
+    animation: rise 1.5s var(--ease) 1.25s forwards;
   }
+  .hero__meta .cap { color: rgba(242,239,233,0.62); letter-spacing: 0.2em; }
 
   @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
@@ -325,12 +350,16 @@
 <main id="main">
 
   <!-- ============ HERO ============ -->
-  <header class="hero">
-    <img class="wordmark" src="/Pics/brand/wordmark.png" alt="Health is a Privilege" width="1400" height="1457">
+  <header class="hero{% if play.hero.background == nil or play.hero.background == "" %} hero--plain{% endif %}">
+    {% if play.hero.background and play.hero.background != "" %}
+    <img class="hero__bg" src="{{ play.hero.background }}" alt="" aria-hidden="true" fetchpriority="high">
+    {% endif %}
 
     {% if play.hero.byline and play.hero.byline != "" %}
     <p class="cap hero__byline">{{ play.hero.byline }}</p>
     {% endif %}
+
+    <img class="wordmark" src="/Pics/brand/wordmark.png" alt="Health is a Privilege" width="1400" height="1457">
 
     {% if play.hero.tagline and play.hero.tagline != "" %}
     <p class="hero__tagline">{{ play.hero.tagline }}</p>
