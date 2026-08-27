@@ -176,9 +176,6 @@ content:
             label: Box office link
             type: string
             description: Leave empty until tickets are actually on sale — the Book tickets button stays hidden until there's a link here.
-          - name: groups_email
-            label: Group bookings email
-            type: string
 
       # ---------------------------------------------------------------
       - name: press
@@ -217,21 +214,16 @@ content:
           - name: kit_text
             label: Press pack note
             type: text
-          - name: email
-            label: Press email
-            type: string
 
       # ---------------------------------------------------------------
       - name: contact
         label: Contact
         type: object
         fields:
-          - name: general_email
-            label: General email
+          - name: email
+            label: Email
             type: string
-          - name: press_email
-            label: Press email
-            type: string
+            description: One address for everything — general enquiries, press and bookings.
           - name: instagram_url
             label: Instagram
             type: string

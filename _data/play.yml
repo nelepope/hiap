@@ -14,7 +14,7 @@ synopsis:
   body: >-
     ‘Health is a Privilege’ is a one-woman experimental play portraying the
     upbringing of a person with chronic pain who in the end finds the strength
-    to begin healing. Accompanied by live guitarist \_\_\_\_.
+    to begin healing. Accompanied by live guitarist Jack Martyn-Hillier.
   content_note: ""
 
 about:
@@ -31,25 +31,16 @@ accolade:
   text: ""
   detail: ""
 
-cast:
-  - role: Character name
-    name: ""
-    bio: ""
+cast: []
 
 creatives:
-  - role: Writer & director
+  - role: Writer, director, producer & performer
     name: Simonetta Gibejova
     bio: ""
-  - role: Producer
-    name: ""
-    bio: ""
-  - role: Set & costume designer
-    name: ""
+  - role: Musician
+    name: Jack Martyn-Hillier
     bio: ""
   - role: Lighting designer
-    name: ""
-    bio: ""
-  - role: Sound designer
     name: ""
     bio: ""
 
@@ -61,7 +52,6 @@ tickets:
   onsale_text: Join the list below and you'll hear first.
   mailing_list_url: "mailto:hello@healthisaprivilege.com?subject=Mailing list — Health is a Privilege"
   booking_url: ""
-  groups_email: hello@healthisaprivilege.com
 
 press:
   gallery:
@@ -76,11 +66,9 @@ press:
       alt: A figure lying on the floor beside an overturned chair in a shaft of light
   quotes: []
   kit_text: Production images, the press release and interview requests — get in touch and we'll send the pack over.
-  email: press@healthisaprivilege.com
 
 contact:
-  general_email: hello@healthisaprivilege.com
-  press_email: press@healthisaprivilege.com
+  email: hello@healthisaprivilege.com
   instagram_url: ""
 
 seo:

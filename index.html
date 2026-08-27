@@ -647,9 +647,9 @@
         {% if play.press.kit_text and play.press.kit_text != "" %}
         <p class="prose" style="margin-top:0.7rem">{{ play.press.kit_text }}</p>
         {% endif %}
-        {% if play.press.email and play.press.email != "" %}
+        {% if play.contact.email and play.contact.email != "" %}
         <div class="actions" style="margin-top:1.4rem">
-          <a class="btn" href="mailto:{{ play.press.email }}?subject=Press%20enquiry">Press enquiries <span class="arw" aria-hidden="true">→</span></a>
+          <a class="btn" href="mailto:{{ play.contact.email }}?subject=Press%20enquiry">Press enquiries <span class="arw" aria-hidden="true">→</span></a>
         </div>
         {% endif %}
       </div>
@@ -661,14 +661,8 @@
 <footer>
   <div class="wrap">
     <div class="foot-grid">
-      {% if play.contact.general_email and play.contact.general_email != "" %}
-      <div><span class="cap">General</span><a href="mailto:{{ play.contact.general_email }}">{{ play.contact.general_email }}</a></div>
-      {% endif %}
-      {% if play.contact.press_email and play.contact.press_email != "" %}
-      <div><span class="cap">Press</span><a href="mailto:{{ play.contact.press_email }}">{{ play.contact.press_email }}</a></div>
-      {% endif %}
-      {% if play.tickets.groups_email and play.tickets.groups_email != "" %}
-      <div><span class="cap">Group bookings</span><a href="mailto:{{ play.tickets.groups_email }}?subject=Group%20and%20industry%20bookings">{{ play.tickets.groups_email }}</a></div>
+      {% if play.contact.email and play.contact.email != "" %}
+      <div><span class="cap">Enquiries</span><a href="mailto:{{ play.contact.email }}">{{ play.contact.email }}</a></div>
       {% endif %}
       {% if play.contact.instagram_url and play.contact.instagram_url != "" %}
       <div><span class="cap">Social</span><a href="{{ play.contact.instagram_url }}" rel="me">Instagram</a></div>
@@ -677,6 +671,7 @@
       <div><span class="cap">Venue</span><a href="{{ play.tickets.venue_url }}">{% if play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name }}{% else %}Venue website{% endif %}</a></div>
       {% endif %}
     </div>
+
     <div class="foot-base">
       <span class="cap">Health is a Privilege</span>
       <span class="cap">© <span id="year">2026</span></span>
