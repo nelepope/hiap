@@ -727,13 +727,14 @@
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Background video: plays for two seconds on load, holds, resumes while
-  // scrolling toward the About panel, and stops once its text reaches the
-  // middle of the screen.
+  // Background video: plays for one second on load, holds, then advances
+  // only while you are actually scrolling, and stops for good once the About
+  // text reaches the middle of the screen.
   const vid = document.getElementById('bg-video');
   if (vid && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const target = document.querySelector('#about .panel__inner');
-    let phase = 'intro';                       // intro -> held -> scrolling -> done
+    let phase = 'intro';        // intro -> held -> scrolling <-> idle -> done
+    let idle;
 
     const reachedMiddle = () => {
       if (!target) return false;
@@ -747,18 +748,22 @@
     play();
     setTimeout(() => { if (phase === 'intro') { phase = 'held'; pause(); } }, 1000);
 
-    let ticking = false;
+    // No requestAnimationFrame here: a backgrounded tab never grants a frame,
+    // and one rect read per scroll event is cheap enough to do inline.
     window.addEventListener('scroll', () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        ticking = false;
-        if (reachedMiddle()) {
-          if (phase !== 'done') { phase = 'done'; pause(); }
-        } else if (phase === 'held' || phase === 'done') {
-          phase = 'scrolling'; play();
-        }
-      });
+      clearTimeout(idle);
+
+      if (reachedMiddle()) {
+        if (phase !== 'done') { phase = 'done'; pause(); }
+        return;
+      }
+
+      if (phase !== 'intro') { phase = 'scrolling'; play(); }
+
+      // Scrolling has stopped moving — hold the frame until it starts again.
+      idle = setTimeout(() => {
+        if (phase === 'scrolling') { phase = 'idle'; pause(); }
+      }, 140);
     }, { passive: true });
   }
 
