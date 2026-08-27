@@ -157,7 +157,9 @@
   @media (max-width: 620px) {
     .nav { flex-direction: column; gap: 0; padding: 0.35rem var(--gut) 0.8rem; }
     .nav ul { justify-content: center; gap: 0 0.5rem; }
-    .nav a { display: block; padding: 0.6rem 0.3rem; letter-spacing: 0.04em; }
+    .nav a { display: block; padding: 0.72rem 0.3rem; letter-spacing: 0.04em; }
+    /* Labels are small by design, but not below ~12.5px on a phone. */
+    .cap { font-size: 0.78rem; }
     .hero { padding-top: 8rem; }
     .panel { padding-top: 8.5rem; }
     .foot-grid a { padding: 0.35rem 0; }
