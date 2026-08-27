@@ -186,6 +186,7 @@
     width: 100vw;
     height: 100svh;
     object-fit: cover;
+    filter: brightness(0.6);
   }
   /* No image set — fall back to plain black rather than a grey void. */
   .hero--plain { background: var(--black); }
@@ -248,7 +249,7 @@
     clip-path: inset(0);
     background: var(--black);
   }
-  .panel__bg { position: fixed; top: 0; left: 0; z-index: -2; width: 100vw; height: 100svh; object-fit: cover; }
+  .panel__bg { position: fixed; top: 0; left: 0; z-index: -2; width: 100vw; height: 100svh; object-fit: cover; filter: brightness(0.6); }
   .panel__inner { max-width: 44rem; }
 
   .panel__venue { color: var(--white); letter-spacing: 0.14em; }
