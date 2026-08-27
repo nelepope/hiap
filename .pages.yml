@@ -81,6 +81,10 @@ content:
         type: object
         description: The biography section.
         fields:
+          - name: role
+            label: Role line
+            type: string
+            description: The small grey line above the name. e.g. Writer, director, producer & actor.
           - name: name
             label: Name
             type: string
@@ -109,42 +113,6 @@ content:
             label: Small print above it
             type: string
             description: e.g. Warwick Film Festival, 2025.
-
-      # ---------------------------------------------------------------
-      - name: cast
-        label: Cast
-        type: object
-        list: true
-        description: One entry per role. Drag to reorder.
-        fields:
-          - name: role
-            label: Character
-            type: string
-          - name: name
-            label: Played by
-            type: string
-            description: Leave empty and it shows "Casting to be announced".
-          - name: bio
-            label: Short bio
-            type: text
-            description: A line or two. Recent credits, training — whatever gives a booker confidence.
-
-      # ---------------------------------------------------------------
-      - name: creatives
-        label: Creative team
-        type: object
-        list: true
-        description: Writer, director, designers and so on. Drag to reorder.
-        fields:
-          - name: role
-            label: Job
-            type: string
-          - name: name
-            label: Name
-            type: string
-          - name: bio
-            label: Short bio
-            type: text
 
       # ---------------------------------------------------------------
       - name: tickets

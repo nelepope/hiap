@@ -372,12 +372,14 @@
   /* Right-aligned so the text sets a clean edge against the portrait. */
   @media (min-width: 860px) { .bio__text { text-align: right; } }
 
+  .bio__role { margin-bottom: 0.5rem; letter-spacing: 0.12em; }
+
   .bio__name {
     font-size: clamp(1.15rem, 2.5vw, 1.7rem);
     letter-spacing: 0.04em;
     text-transform: uppercase;
     line-height: 1.25;
-    margin-bottom: clamp(1.2rem, 3vh, 1.9rem);
+    margin-bottom: clamp(1.4rem, 3.5vh, 2.2rem);
   }
   .bio__body { color: var(--white); font-size: clamp(0.88rem, 1.3vw, 1.02rem); line-height: 1.72; }
   .bio__body p + p { margin-top: 1.1em; }
@@ -556,6 +558,9 @@
   <section id="simonetta" class="bio-sec">
     <div class="bio">
       <div class="bio__text reveal">
+        {% if play.about.role and play.about.role != "" %}
+        <p class="cap bio__role">{{ play.about.role }}</p>
+        {% endif %}
         <h2 class="bio__name">{{ play.about.name | default: "Simonetta Gibejova" }}</h2>
         {% if play.about.body and play.about.body != "" %}
         <div class="bio__body">{{ play.about.body | markdownify }}</div>
@@ -568,42 +573,6 @@
       <figure class="bio__portrait reveal">
         <img src="{{ play.about.portrait }}" alt="{{ play.about.portrait_alt }}" loading="lazy">
       </figure>
-      {% endif %}
-    </div>
-
-    <div class="wrap">
-
-      {% assign named_cast = 0 %}
-      {% for m in play.cast %}{% if m.name and m.name != "" %}{% assign named_cast = named_cast | plus: 1 %}{% endif %}{% endfor %}
-
-      {% if named_cast > 0 %}
-      <p class="cap group reveal">Cast</p>
-      <div class="reveal">
-        {% for m in play.cast %}
-        <div class="credit">
-          <span class="cap credit__role">{{ m.role }}</span>
-          <div>
-            <p class="credit__name">{% if m.name and m.name != "" %}{{ m.name }}{% else %}<span class="tbc">To be announced</span>{% endif %}</p>
-            {% if m.bio and m.bio != "" %}<p class="credit__bio">{{ m.bio }}</p>{% endif %}
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      {% endif %}
-
-      {% if play.creatives.size > 0 %}
-      <p class="cap group reveal">Company</p>
-      <div class="reveal">
-        {% for m in play.creatives %}
-        <div class="credit">
-          <span class="cap credit__role">{{ m.role }}</span>
-          <div>
-            <p class="credit__name">{% if m.name and m.name != "" %}{{ m.name }}{% else %}<span class="tbc">To be announced</span>{% endif %}</p>
-            {% if m.bio and m.bio != "" %}<p class="credit__bio">{{ m.bio }}</p>{% endif %}
-          </div>
-        </div>
-        {% endfor %}
-      </div>
       {% endif %}
     </div>
   </section>
