@@ -232,6 +232,7 @@
     justify-content: center;
     text-align: center;
     padding: clamp(4rem, 10vh, 7rem) var(--gut);
+    background: rgba(7, 7, 7, 0.4);
   }
 
   /* One still, fixed behind the whole page, so it stays put while everything
@@ -244,7 +245,6 @@
     height: 100lvh;            /* never resizes when the URL bar hides */
     object-fit: cover;
     object-position: center 42%;
-    filter: brightness(0.6);
   }
 
   .hero__byline {
@@ -302,8 +302,9 @@
     text-align: center;
     /* As high as the content can sit without meeting the fixed nav. */
     padding: clamp(5.75rem, 13vh, 7rem) var(--gut) clamp(4rem, 10vh, 7rem);
+    background: rgba(7, 7, 7, 0.4);
   }
-    .panel__inner { max-width: 44rem; }
+  .panel__inner { max-width: 44rem; }
 
   .panel__venue { color: var(--white); letter-spacing: 0.14em; }
   .panel__dates {
@@ -397,7 +398,7 @@
 
   /* ---------------- accolade ---------------- */
 
-  .accolade { padding: clamp(4rem, 11vh, 7rem) var(--gut); background: rgba(13, 13, 13, 0.9); text-align: center; }
+  .accolade { padding: clamp(4rem, 11vh, 7rem) var(--gut); background: rgba(7, 7, 7, 0.78); text-align: center; }
   .accolade p.line {
     font-size: clamp(1rem, 2.1vw, 1.45rem);
     font-weight: 400;
@@ -411,7 +412,7 @@
 
   /* The lower sections sit on a 90% veil, so the pinned still reads
      faintly through them rather than going flat black. */
-  .bio-sec, #gallery, #press, footer { background: rgba(7, 7, 7, 0.9); }
+  .bio-sec, #gallery, #press, footer { background: rgba(7, 7, 7, 0.78); }
 
   .bio {
     display: grid;
