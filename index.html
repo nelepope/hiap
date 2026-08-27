@@ -114,7 +114,7 @@
   /* Small letterspaced mono caps — the only supporting voice on the page. */
   .cap {
     font-family: var(--mono);
-    font-size: clamp(0.62rem, 1.05vw, 0.74rem);
+    font-size: clamp(0.7rem, 1.05vw, 0.74rem);
     font-weight: 400;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -141,7 +141,7 @@
   }
   .nav ul { display: flex; flex-wrap: wrap; gap: 0.4rem clamp(1.1rem, 2.6vw, 2.4rem); list-style: none; }
   .nav a {
-    font-size: clamp(0.72rem, 1.1vw, 0.95rem);
+    font-size: clamp(0.8rem, 1.1vw, 0.95rem);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     text-decoration: none;
@@ -152,10 +152,16 @@
   }
   .nav a:hover { opacity: 0.55; }
 
-  /* Five items don't fit on a phone — centre them over two rows instead. */
+  /* Five items don't fit on a phone — centre them over two rows instead,
+     and give every link a finger-sized hit area. */
   @media (max-width: 620px) {
-    .nav { flex-direction: column; gap: 0.35rem; padding-top: 1.1rem; }
-    .nav ul { justify-content: center; }
+    .nav { flex-direction: column; gap: 0; padding: 0.35rem var(--gut) 0.8rem; }
+    .nav ul { justify-content: center; gap: 0 0.5rem; }
+    .nav a { display: block; padding: 0.6rem 0.3rem; letter-spacing: 0.04em; }
+    .hero { padding-top: 8rem; }
+    .panel { padding-top: 8.5rem; }
+    .foot-grid a { padding: 0.35rem 0; }
+    .panel__ig { padding: 0.5rem 0; }
   }
 
   /* Anchors must clear the fixed bar when jumped to. */
@@ -185,15 +191,19 @@
     z-index: -2;
     width: 100vw;
     height: 100svh;
+    height: 100lvh;            /* never resizes when the URL bar hides */
     object-fit: cover;
+    object-position: center 42%;
     filter: brightness(0.6);
   }
+  .hero picture, .panel picture { display: contents; }
+
   /* No image set — fall back to plain black rather than a grey void. */
   .hero--plain { background: var(--black); }
 
   .hero__byline {
     color: var(--white);
-    font-size: clamp(0.68rem, 1.15vw, 0.86rem);
+    font-size: clamp(0.8rem, 1.15vw, 0.86rem);
     letter-spacing: 0.16em;
     opacity: 0;
     animation: rise 1.5s var(--ease) 0.15s forwards;
@@ -210,7 +220,7 @@
   .hero__tagline {
     color: var(--white);
     font-family: var(--mono);
-    font-size: clamp(0.66rem, 1.1vw, 0.82rem);
+    font-size: clamp(0.78rem, 1.1vw, 0.82rem);
     font-weight: 400;
     letter-spacing: 0.13em;
     text-transform: uppercase;
@@ -250,7 +260,15 @@
     clip-path: inset(0);
     background: var(--black);
   }
-  .panel__bg { position: fixed; top: 0; left: 0; z-index: -2; width: 100vw; height: 100svh; object-fit: cover; filter: brightness(0.6); }
+    .panel__bg {
+    position: fixed; top: 0; left: 0; z-index: -2;
+    width: 100vw;
+    height: 100svh;
+    height: 100lvh;
+    object-fit: cover;
+    object-position: center 42%;
+    filter: brightness(0.6);
+  }
   .panel__inner { max-width: 44rem; }
 
   .panel__venue { color: var(--white); letter-spacing: 0.14em; }
@@ -265,7 +283,7 @@
     color: var(--white);
     max-width: 42ch;
     margin: clamp(2.2rem, 6vh, 3.4rem) auto 0;
-    font-size: clamp(0.9rem, 1.35vw, 1.05rem);
+    font-size: clamp(0.95rem, 1.35vw, 1.05rem);
     line-height: 1.72;
   }
   .panel__body p + p { margin-top: 1.1em; }
@@ -278,7 +296,7 @@
     border: 1px solid var(--white);
     border-radius: 999px;
     color: var(--white);
-    font-size: clamp(0.78rem, 1.15vw, 0.95rem);
+    font-size: clamp(0.84rem, 1.15vw, 0.95rem);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     text-decoration: none;
@@ -289,7 +307,7 @@
   .panel__ig {
     display: inline-block;
     margin-top: clamp(2.2rem, 6vh, 3.2rem);
-    font-size: clamp(0.78rem, 1.15vw, 0.95rem);
+    font-size: clamp(0.84rem, 1.15vw, 0.95rem);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     text-decoration: none;
@@ -381,7 +399,7 @@
     line-height: 1.25;
     margin-bottom: clamp(1.4rem, 3.5vh, 2.2rem);
   }
-  .bio__body { color: var(--white); font-size: clamp(0.88rem, 1.3vw, 1.02rem); line-height: 1.72; }
+  .bio__body { color: var(--white); font-size: clamp(0.95rem, 1.3vw, 1.02rem); line-height: 1.72; }
   .bio__body p + p { margin-top: 1.1em; }
   .bio__body.tbc, .bio__body .tbc { color: var(--faint); }
 
@@ -492,7 +510,12 @@
   <!-- ============ HERO ============ -->
   <header class="hero{% if play.hero.background == nil or play.hero.background == "" %} hero--plain{% endif %}">
     {% if play.hero.background and play.hero.background != "" %}
-    <img class="hero__bg" src="{{ play.hero.background }}" alt="" aria-hidden="true" fetchpriority="high">
+    <picture>
+      {% if play.hero.background_mobile and play.hero.background_mobile != "" %}
+      <source media="(max-width: 620px)" srcset="{{ play.hero.background_mobile }}">
+      {% endif %}
+      <img class="hero__bg" src="{{ play.hero.background }}" alt="" aria-hidden="true" fetchpriority="high">
+    </picture>
     {% endif %}
 
     {% if play.hero.byline and play.hero.byline != "" %}
@@ -510,7 +533,12 @@
   <!-- ============ ABOUT / TICKETS PANEL ============ -->
   <section id="about" class="panel">
     {% if play.hero.background and play.hero.background != "" %}
-    <img class="panel__bg" src="{{ play.hero.background }}" alt="" aria-hidden="true" loading="lazy">
+    <picture>
+      {% if play.hero.background_mobile and play.hero.background_mobile != "" %}
+      <source media="(max-width: 620px)" srcset="{{ play.hero.background_mobile }}">
+      {% endif %}
+      <img class="panel__bg" src="{{ play.hero.background }}" alt="" aria-hidden="true" loading="lazy">
+    </picture>
     {% endif %}
 
     <div class="panel__inner reveal">

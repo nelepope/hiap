@@ -36,6 +36,10 @@ content:
             label: Background image
             type: image
             description: Fills the whole first screen behind the title. It is dimmed automatically, so pick something with a clear middle. Leave empty for plain black.
+          - name: background_mobile
+            label: Background image (phones)
+            type: image
+            description: Optional. A tall, portrait-shaped version of the background, used on phones. Without one the wide image is used and phones only see a narrow strip of the middle of it.
           - name: byline
             label: Byline
             type: string
