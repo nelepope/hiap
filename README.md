@@ -1,6 +1,7 @@
 # hiap
 
-The website for **Health Is a Privilege**, a new play — live at https://healthisaprivilege.com.
+The website for **Health is a Privilege**, a play by Simonetta Gibejova — live at
+https://healthisaprivilege.com.
 
 ---
 
@@ -8,14 +9,14 @@ The website for **Health Is a Privilege**, a new play — live at https://health
 
 **Go to [app.pagescms.org](https://app.pagescms.org), open this repository, click *Website content*.**
 
-You'll see a form: Logline, Synopsis, Cast, Venue, and so on. Change what you want, hit save, and
+You'll see a form: Byline, Tagline, Synopsis, Cast, Venue, and so on. Change what you want, hit save, and
 the live site catches up in about a minute. That's the whole job — no code, no installing anything.
 
 A few things worth knowing:
 
 - **Empty fields hide themselves.** There's no need to invent a running time or a press quote to
   fill a gap. If a field is empty, that part of the page quietly disappears rather than showing a
-  hole. The exceptions are the venue and the cast names, which show a red dotted "to be confirmed"
+  hole. The exceptions are the venue and the cast names, which show a greyed "to be confirmed"
   instead — deliberately, so nobody forgets them.
 - **The Book tickets button only appears once there's a link in *Box office link*.** Until then the
   mailing list button takes its place.
@@ -41,7 +42,9 @@ Nothing here needs a build step. GitHub Pages compiles the site with Jekyll on e
 | `index.html` | The layout. Design, CSS and the `{{ slots }}` that pull text from `play.yml`. |
 | `.pages.yml` | Defines the CMS form — what fields exist and what the hints say. |
 | `_config.yml` | Jekyll settings. Rarely needs touching. |
-| `Pics/` | Images. The CMS uploads here. |
+| `Pics/` | Web images. **Only the files listed in `.gitignore` are published** — anything else you drop in here stays local, which is deliberate. |
+| `Pics/brand/` | The wordmark (transparent PNG) and the link-preview card, both generated from `Brand /whiteonblack.jpeg`. |
+| `Pics/originals/` | Full-size originals. Local only, never published. |
 | `CNAME` | Points the site at healthisaprivilege.com. Don't delete it. |
 
 Two things to be careful of:
@@ -70,39 +73,43 @@ Honestly, though — for a site this size it's usually easier to push and look a
 
 ---
 
-## First-time setup
 
-Not yet done. In order:
+## A note on the images
 
-1. Create a repository called `hiap` at https://github.com/new — public, and **don't** add a README,
-   .gitignore or licence, because this folder already has them.
-2. Push it:
+`Pics/` is whitelist-based: nothing in it reaches the live site unless it is
+explicitly un-ignored in `.gitignore`. Drop originals, PDFs, raw files or anything
+else in there freely — they stay on your Mac. To publish a new image, either upload
+it through the CMS (which commits it directly and bypasses this) or add its filename
+to the exceptions at the bottom of `.gitignore`.
 
-```bash
-git remote add origin git@github.com:nelepope/hiap.git && git push -u origin main
-```
+The first two images in **Production images** are used differently from the rest:
+they run full-screen between sections. Put the strongest ones first.
 
-3. **Settings → Pages**, set source to `main` / root. Confirm the custom domain says
-   `healthisaprivilege.com`, and tick **Enforce HTTPS** once the certificate has been issued (can
-   take up to an hour after DNS propagates).
-4. Point the domain at GitHub. At the registrar:
+## A note on the design
 
-   | Type | Name | Value |
-   |---|---|---|
-   | A | @ | 185.199.108.153 |
-   | A | @ | 185.199.109.153 |
-   | A | @ | 185.199.110.153 |
-   | A | @ | 185.199.111.153 |
-   | CNAME | www | nelepope.github.io. |
+The identity is the project's own: the handwritten wire wordmark, extracted to a
+transparent PNG so it sits on black cleanly. Everything else is deliberately quiet —
+light, widely letterspaced capitals — so the handwriting is the only voice on the
+page. If you add type, keep it in that register.
 
-5. Install the Pages CMS GitHub App on the `hiap` repository from
-   https://github.com/marketplace/pages-cms, then sign in at https://app.pagescms.org.
-6. Invite your collaborator by email from *Settings → Collaborators* in Pages CMS.
+## Setup status
+
+- [x] Repository on GitHub — `nelepope/hiap`
+- [x] GitHub Pages building from `main` / root
+- [x] DNS at Porkbun, HTTPS certificate issued, Enforce HTTPS on
+- [x] Live at https://healthisaprivilege.com
+- [x] Pages CMS connected
+- [ ] Collaborator invited (*Settings → Collaborators* in Pages CMS)
+- [ ] Real copy in place — the site is hidden from search engines until it is
 
 ## Still to sort out
 
 - The site uses `hello@` and `press@healthisaprivilege.com`. Neither exists yet — either set them
   up at the domain or swap them for real addresses in the CMS under *Contact*.
-- No link-preview image yet, so pasting the URL into WhatsApp or Instagram shows no picture. Add a
-  1200 × 630 image under *Search & sharing → Link preview image*.
-- The writer credit is blank, not assumed.
+- The synopsis is empty, so the whole *The play* section is currently hidden. It appears as soon as
+  there are words in it.
+- The award band is empty. If you want the Warwick Film Festival win on the site, fill in *Award /
+  accolade* — but note the award was for the film, so word it so it doesn't read as the play's.
+- Casting is a single placeholder row. Add rows as people are cast, or leave it.
+- The link-preview card is the wordmark on black. Swap it for a production still under
+  *Search & sharing* if you'd rather.
