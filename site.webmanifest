@@ -1,0 +1,12 @@
+{
+  "name": "Health Is a Privilege",
+  "short_name": "HIAP",
+  "description": "A new play.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0f0e",
+  "theme_color": "#0d0f0e",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health Is a Privilege — a new play</title>
+<meta name="description" content="Health Is a Privilege — a new play. Venue confirmed, dates to be announced. Join the mailing list for first news of tickets.">
+<meta name="theme-color" content="#0d0f0e">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://healthisaprivilege.com/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Health Is a Privilege — a new play">
+<meta property="og:description" content="A new play. Venue confirmed, dates to be announced.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://healthisaprivilege.com/">
+<meta property="og:site_name" content="Health Is a Privilege">
+<meta property="og:locale" content="en_GB">
+<!-- REPLACE: add Pics/og.jpg (1200×630) and uncomment the two lines below -->
+<!-- <meta property="og:image" content="https://healthisaprivilege.com/Pics/og.jpg"> -->
+<!-- <meta name="twitter:image" content="https://healthisaprivilege.com/Pics/og.jpg"> -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Health Is a Privilege — a new play">
+<meta name="twitter:description" content="A new play. Venue confirmed, dates to be announced.">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/site.webmanifest">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Structured data. REPLACE the TBC values once dates and venue address are confirmed. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TheaterEvent",
+  "name": "Health Is a Privilege",
+  "description": "A new play.",
+  "url": "https://healthisaprivilege.com/",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "location": {
+    "@type": "PerformingArtsTheater",
+    "name": "Venue to be announced",
+    "address": { "@type": "PostalAddress", "addressLocality": "London", "addressCountry": "GB" }
+  }
+}
+</script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --void: #0d0f0e;
+    --void-2: #141816;
+    --void-3: #1b201d;
+    --bone: #ece6da;
+    --bone-dim: #a29c91;
+    --bone-faint: #6c6862;
+    --surgical: #74c3a4;
+    --alarm: #e0563f;
+    --rule: rgba(236,230,218,0.13);
+    --rule-soft: rgba(236,230,218,0.07);
+
+    --display: 'Fraunces', 'Times New Roman', Georgia, serif;
+    --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+    --gutter: clamp(1.25rem, 5vw, 5rem);
+    --measure: 64ch;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    background: var(--void);
+    color: var(--bone);
+    font-family: var(--display);
+    font-variation-settings: 'opsz' 14, 'SOFT' 0, 'WONK' 0;
+    font-weight: 350;
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Grain / vignette over the whole page */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    background:
+      radial-gradient(120% 90% at 50% 0%, transparent 40%, rgba(0,0,0,0.45) 100%);
+    mix-blend-mode: multiply;
+  }
+
+  a { color: inherit; }
+
+  ::selection { background: var(--surgical); color: var(--void); }
+
+  :focus-visible {
+    outline: 2px solid var(--surgical);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .skip {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--surgical);
+    color: var(--void);
+    padding: 0.6rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    z-index: 200;
+  }
+  .skip:focus { left: 0; }
+
+  /* ---------- shared type ---------- */
+
+  .label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+  }
+
+  .tbc {
+    color: var(--alarm);
+    border-bottom: 1px dotted currentColor;
+    padding-bottom: 1px;
+  }
+
+  h2 {
+    font-size: clamp(1.9rem, 4.2vw, 3.1rem);
+    font-weight: 400;
+    font-variation-settings: 'opsz' 90, 'WONK' 1;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  p { max-width: var(--measure); }
+  p + p { margin-top: 1.15em; }
+
+  /* ---------- nav ---------- */
+
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem var(--gutter);
+    background: linear-gradient(to bottom, rgba(13,15,14,0.92), rgba(13,15,14,0));
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .nav__mark {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--bone);
+    white-space: nowrap;
+  }
+  .nav__mark span { color: var(--surgical); }
+
+  .nav__links {
+    display: flex;
+    gap: clamp(0.9rem, 2.5vw, 2rem);
+    list-style: none;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .nav__links a {
+    text-decoration: none;
+    color: var(--bone-dim);
+    transition: color 0.3s var(--ease);
+  }
+  .nav__links a:hover { color: var(--surgical); }
+
+  @media (max-width: 640px) {
+    .nav__links li:nth-child(1), .nav__links li:nth-child(4) { display: none; }
+  }
+
+  /* ---------- hero ---------- */
+
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 7rem var(--gutter) clamp(2rem, 5vw, 4rem);
+    overflow: hidden;
+  }
+
+  .hero__ecg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 42%;
+    width: 100%;
+    height: clamp(120px, 22vw, 260px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .hero__ecg path {
+    fill: none;
+    stroke: var(--surgical);
+    stroke-width: 1.25;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    stroke-dasharray: 2400;
+    stroke-dashoffset: 2400;
+    animation: trace 7s var(--ease) 0.4s forwards;
+  }
+  @keyframes trace { to { stroke-dashoffset: 0; } }
+
+  .hero__title {
+    position: relative;
+    font-size: clamp(3rem, 13.5vw, 12rem);
+    font-weight: 300;
+    font-variation-settings: 'opsz' 144, 'WONK' 1;
+    line-height: 0.86;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  .hero__title .l {
+    display: block;
+    opacity: 0;
+    transform: translateY(0.45em);
+    animation: rise 1.2s var(--ease) forwards;
+  }
+  .hero__title .l:nth-child(1) { animation-delay: 0.1s; }
+  .hero__title .l:nth-child(2) { animation-delay: 0.22s; }
+  .hero__title .l:nth-child(3) { animation-delay: 0.34s; }
+
+  .hero__title em {
+    font-style: normal;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--surgical);
+    text-stroke: 1px var(--surgical);
+  }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero__logline {
+    position: relative;
+    font-size: clamp(1.05rem, 2vw, 1.5rem);
+    font-variation-settings: 'opsz' 40;
+    font-style: italic;
+    color: var(--bone-dim);
+    max-width: 34ch;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+    opacity: 0;
+    animation: rise 1.2s var(--ease) 0.5s forwards;
+  }
+
+  .hero__meta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem clamp(1rem, 4vw, 3rem);
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+    opacity: 0;
+    animation: rise 1.2s var(--ease) 0.65s forwards;
+  }
+  .hero__meta div { min-width: 8rem; }
+  .hero__meta .val {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    color: var(--bone);
+    margin-top: 0.3rem;
+  }
+
+  /* ---------- section shell ---------- */
+
+  section { padding: clamp(4.5rem, 11vw, 9rem) var(--gutter); }
+
+  .section__head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section__head .num {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--surgical);
+    letter-spacing: 0.1em;
+  }
+
+  /* ---------- synopsis ---------- */
+
+  #synopsis { background: var(--void-2); }
+
+  .synopsis__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+  @media (min-width: 900px) {
+    .synopsis__grid { grid-template-columns: 1.05fr 1fr; align-items: start; }
+  }
+
+  .synopsis__pull {
+    font-size: clamp(1.45rem, 3.4vw, 2.4rem);
+    font-variation-settings: 'opsz' 80, 'WONK' 1;
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    max-width: 20ch;
+  }
+  .synopsis__body { color: var(--bone-dim); }
+  .synopsis__body strong { color: var(--bone); font-weight: 500; }
+
+  .content-note {
+    margin-top: 2rem;
+    padding: 1rem 1.15rem;
+    border-left: 2px solid var(--rule);
+    font-size: 0.9rem;
+    color: var(--bone-faint);
+    max-width: var(--measure);
+  }
+
+  /* ---------- company ---------- */
+
+  .credits { border-top: 1px solid var(--rule); }
+
+  .credit {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.15rem 2rem;
+    padding: 1.15rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+    transition: background 0.35s var(--ease), padding 0.35s var(--ease);
+  }
+  @media (min-width: 720px) {
+    .credit { grid-template-columns: 13rem 1fr; align-items: baseline; padding: 1.35rem 0; }
+    .credit:hover { background: var(--void-2); padding-left: 1rem; padding-right: 1rem; }
+  }
+
+  .credit__role { padding-top: 0.35rem; }
+  .credit__name {
+    font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+    font-variation-settings: 'opsz' 60;
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+  .credit__bio {
+    font-size: 0.92rem;
+    color: var(--bone-faint);
+    margin-top: 0.35rem;
+    max-width: 54ch;
+  }
+
+  .credits__group {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ---------- tickets ---------- */
+
+  #tickets { background: var(--void-2); }
+
+  .ticket-card {
+    border: 1px solid var(--rule);
+    background: var(--void-3);
+    padding: clamp(1.5rem, 4vw, 2.75rem);
+    max-width: 46rem;
+  }
+
+  .ticket-card__venue {
+    font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+    font-variation-settings: 'opsz' 80, 'WONK' 1;
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0.5rem 0 0.35rem;
+  }
+  .ticket-card__where { color: var(--bone-faint); font-size: 0.95rem; }
+
+  .ticket-card__dates {
+    margin: clamp(1.5rem, 4vw, 2.25rem) 0;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .ticket-card__dates p {
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    color: var(--bone);
+    margin-top: 0.45rem;
+    max-width: none;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.95rem 1.6rem;
+    border: 1px solid var(--surgical);
+    color: var(--surgical);
+    background: transparent;
+    transition: background 0.35s var(--ease), color 0.35s var(--ease);
+  }
+  .btn:hover { background: var(--surgical); color: var(--void); }
+  .btn--solid { background: var(--surgical); color: var(--void); }
+  .btn--solid:hover { background: transparent; color: var(--surgical); }
+  .btn .arrow { transition: transform 0.35s var(--ease); }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  .ticket-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  /* ---------- gallery & press ---------- */
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    gap: clamp(0.75rem, 2vw, 1.25rem);
+    margin-bottom: clamp(3rem, 8vw, 5.5rem);
+  }
+
+  .shot {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background:
+      repeating-linear-gradient(
+        135deg,
+        var(--void-2) 0 10px,
+        var(--void-3) 10px 20px
+      );
+    border: 1px solid var(--rule);
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+    overflow: hidden;
+  }
+  .shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .shot figcaption { position: relative; }
+
+  .quotes {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  }
+  .quote blockquote {
+    font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+    font-variation-settings: 'opsz' 72, 'WONK' 1;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    color: var(--bone-dim);
+  }
+  .quote figcaption { margin-top: 0.9rem; }
+
+  .press-kit {
+    margin-top: clamp(3rem, 7vw, 4.5rem);
+    padding-top: clamp(1.5rem, 4vw, 2.5rem);
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ---------- footer ---------- */
+
+  footer {
+    padding: clamp(3rem, 7vw, 5rem) var(--gutter) clamp(2rem, 4vw, 3rem);
+    border-top: 1px solid var(--rule);
+  }
+
+  .footer__grid {
+    display: grid;
+    gap: 2rem clamp(2rem, 6vw, 5rem);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+  .footer__grid a {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--bone);
+    text-decoration: none;
+    margin-top: 0.4rem;
+    transition: color 0.3s var(--ease);
+    word-break: break-word;
+  }
+  .footer__grid a:hover { color: var(--surgical); }
+
+  .footer__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule-soft);
+  }
+
+  /* ---------- reveal on scroll ---------- */
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .hero__title .l, .hero__logline, .hero__meta { opacity: 1; transform: none; }
+    .reveal { opacity: 1; transform: none; }
+    .hero__ecg path { stroke-dashoffset: 0; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <a class="nav__mark" href="#top">Health Is a <span>Privilege</span></a>
+  <ul class="nav__links">
+    <li><a href="#synopsis">Synopsis</a></li>
+    <li><a href="#company">Company</a></li>
+    <li><a href="#tickets">Tickets</a></li>
+    <li><a href="#press">Press</a></li>
+  </ul>
+</nav>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="top">
+    <svg class="hero__ecg" viewBox="0 0 1200 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path d="M0,100 L180,100 L200,100 L210,60 L222,140 L234,100 L300,100 L318,100 L326,20 L340,180 L352,100 L520,100 L540,100 L548,74 L560,126 L570,100 L760,100 L778,100 L788,34 L802,166 L814,100 L980,100 L1000,100 L1010,82 L1022,118 L1032,100 L1200,100"/>
+    </svg>
+
+    <h1 class="hero__title">
+      <span class="l">Health</span>
+      <span class="l">Is a</span>
+      <span class="l"><em>Privilege</em></span>
+    </h1>
+
+    <!-- REPLACE: logline — one sentence, the hook -->
+    <p class="hero__logline">A new play about who gets to be well, and what it costs everybody else.</p>
+
+    <div class="hero__meta">
+      <div>
+        <span class="label">Venue</span>
+        <!-- REPLACE: venue name -->
+        <span class="val tbc">Venue name TBC</span>
+      </div>
+      <div>
+        <span class="label">Dates</span>
+        <span class="val">To be announced</span>
+      </div>
+      <div>
+        <span class="label">Running time</span>
+        <!-- REPLACE -->
+        <span class="val tbc">00 mins</span>
+      </div>
+      <div>
+        <span class="label">Status</span>
+        <span class="val">In production</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ SYNOPSIS ============ -->
+  <section id="synopsis">
+    <div class="section__head reveal">
+      <span class="num">01</span>
+      <h2>The play</h2>
+    </div>
+
+    <div class="synopsis__grid">
+      <!-- REPLACE: the pull-quote — the sharpest line of the play, or a distillation of its argument -->
+      <p class="synopsis__pull reveal">A pull-quote goes here. One line, sharp enough to stop someone scrolling.</p>
+
+      <div class="synopsis__body reveal">
+        <!-- REPLACE: synopsis, 2–3 paragraphs -->
+        <p><strong>Paragraph one.</strong> Set the situation up — who, where, and what has just gone wrong. Keep it present tense and concrete. This is the paragraph a programmer or a journalist will read and nothing else, so it has to carry the whole play.</p>
+        <p>Paragraph two. Turn the screw. What choice is forced, and what does it cost. Avoid summarising the ending — leave the question open.</p>
+        <p>Paragraph three, optional. What the play is really about underneath the plot, said once and lightly.</p>
+
+        <p class="content-note">
+          <span class="label">Content note</span><br>
+          <!-- REPLACE or delete this block -->
+          <span class="tbc">List content warnings here — or delete this block.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMPANY ============ -->
+  <section id="company">
+    <div class="section__head reveal">
+      <span class="num">02</span>
+      <h2>Cast &amp; creatives</h2>
+    </div>
+
+    <!-- REPLACE: every name and bio below. Delete rows you don't need, duplicate rows you do. -->
+    <p class="label credits__group reveal" style="margin-top:0">Cast</p>
+    <div class="credits reveal">
+      <div class="credit">
+        <span class="label credit__role">Character name</span>
+        <div>
+          <p class="credit__name tbc">Actor name</p>
+          <p class="credit__bio">One or two lines. Recent credits, training, anything that gives a booker confidence.</p>
+        </div>
+      </div>
+      <div class="credit">
+        <span class="label credit__role">Character name</span>
+        <div>
+          <p class="credit__name tbc">Actor name</p>
+          <p class="credit__bio">One or two lines.</p>
+        </div>
+      </div>
+      <div class="credit">
+        <span class="label credit__role">Character name</span>
+        <div>
+          <p class="credit__name tbc">Actor name</p>
+          <p class="credit__bio">One or two lines.</p>
+        </div>
+      </div>
+      <div class="credit">
+        <span class="label credit__role">Character name</span>
+        <div>
+          <p class="credit__name tbc">Actor name</p>
+          <p class="credit__bio">One or two lines.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="label credits__group reveal">Creative team</p>
+    <div class="credits reveal">
+      <div class="credit">
+        <span class="label credit__role">Writer</span>
+        <div>
+          <p class="credit__name tbc">Name</p>
+          <p class="credit__bio">Short bio.</p>
+        </div>
+      </div>
+      <div class="credit">
+        <span class="label credit__role">Director</span>
+        <div>
+          <p class="credit__name tbc">Name</p>
+          <p class="credit__bio">Short bio.</p>
+        </div>
+      </div>
+      <div class="credit">
+        <span class="label credit__role">Producer</span>
+        <div><p class="credit__name tbc">Name</p></div>
+      </div>
+      <div class="credit">
+        <span class="label credit__role">Set &amp; costume designer</span>
+        <div><p class="credit__name tbc">Name</p></div>
+      </div>
+      <div class="credit">
+        <span class="label credit__role">Lighting designer</span>
+        <div><p class="credit__name tbc">Name</p></div>
+      </div>
+      <div class="credit">
+        <span class="label credit__role">Sound designer</span>
+        <div><p class="credit__name tbc">Name</p></div>
+      </div>
+      <div class="credit">
+        <span class="label credit__role">Stage manager</span>
+        <div><p class="credit__name tbc">Name</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TICKETS ============ -->
+  <section id="tickets">
+    <div class="section__head reveal">
+      <span class="num">03</span>
+      <h2>Dates &amp; tickets</h2>
+    </div>
+
+    <div class="ticket-card reveal">
+      <span class="label">Venue</span>
+      <!-- REPLACE: venue name and address -->
+      <p class="ticket-card__venue tbc">Venue name</p>
+      <p class="ticket-card__where tbc">Street, London POST CODE</p>
+
+      <div class="ticket-card__dates">
+        <span class="label">Performance dates</span>
+        <p>To be announced.</p>
+        <span class="label" style="display:block;margin-top:1.25rem">On sale</span>
+        <p>Join the list below and you'll hear first.</p>
+      </div>
+
+      <div class="ticket-actions">
+        <!-- REPLACE: swap mailto for your mailing-list signup URL once you have one -->
+        <a class="btn btn--solid" href="mailto:hello@healthisaprivilege.com?subject=Mailing%20list%20—%20Health%20Is%20a%20Privilege&amp;body=Add%20me%20to%20the%20list%20for%20ticket%20news.">
+          Join the mailing list <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <!-- Uncomment once tickets are live, and point href at the box office -->
+        <!-- <a class="btn" href="#">Book tickets <span class="arrow" aria-hidden="true">→</span></a> -->
+        <a class="btn" href="mailto:hello@healthisaprivilege.com?subject=Group%20%26%20industry%20bookings">Group &amp; industry bookings</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALLERY & PRESS ============ -->
+  <section id="press">
+    <div class="section__head reveal">
+      <span class="num">04</span>
+      <h2>Gallery &amp; press</h2>
+    </div>
+
+    <!-- REPLACE: drop images into /Pics and swap each figure for <img src="/Pics/name.jpg" alt="..."> -->
+    <div class="gallery reveal">
+      <figure class="shot"><figcaption class="label">Production image 01</figcaption></figure>
+      <figure class="shot"><figcaption class="label">Production image 02</figcaption></figure>
+      <figure class="shot"><figcaption class="label">Production image 03</figcaption></figure>
+    </div>
+
+    <div class="quotes reveal">
+      <!-- REPLACE: real review quotes only. Delete this whole block until you have them. -->
+      <figure class="quote">
+        <blockquote>Press quote slot — paste a real review pull-quote here once the play has been seen.</blockquote>
+        <figcaption class="label tbc">Publication</figcaption>
+      </figure>
+      <figure class="quote">
+        <blockquote>Second press quote slot.</blockquote>
+        <figcaption class="label tbc">Publication</figcaption>
+      </figure>
+    </div>
+
+    <div class="press-kit reveal">
+      <span class="label">For press</span>
+      <p style="margin-top:0.6rem;color:var(--bone-dim)">Production images, the press release and interview requests — get in touch and we'll send the pack over.</p>
+      <div class="ticket-actions" style="margin-top:1.25rem">
+        <a class="btn" href="mailto:press@healthisaprivilege.com?subject=Press%20enquiry%20—%20Health%20Is%20a%20Privilege">Press enquiries <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer__grid">
+    <div>
+      <span class="label">General</span>
+      <a href="mailto:hello@healthisaprivilege.com">hello@healthisaprivilege.com</a>
+    </div>
+    <div>
+      <span class="label">Press</span>
+      <a href="mailto:press@healthisaprivilege.com">press@healthisaprivilege.com</a>
+    </div>
+    <div>
+      <span class="label">Social</span>
+      <!-- REPLACE or delete -->
+      <a href="#" class="tbc">Instagram</a>
+    </div>
+    <div>
+      <span class="label">Venue</span>
+      <a href="#" class="tbc">Venue website</a>
+    </div>
+  </div>
+
+  <div class="footer__base">
+    <span class="label">Health Is a Privilege — a new play</span>
+    <span class="label">© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const targets = document.querySelectorAll('.reveal');
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    targets.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
+    targets.forEach(el => io.observe(el));
+  }
+</script>
+
+</body>
+</html>
