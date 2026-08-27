@@ -86,10 +86,10 @@
     --gut:  clamp(1.4rem, 5vw, 5rem);
   }
 
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; background: var(--black); }
 
   body {
-    background: var(--black);
+    background: transparent;
     color: var(--white);
     font-family: var(--sans);
     font-weight: 400;
@@ -232,28 +232,20 @@
     justify-content: center;
     text-align: center;
     padding: clamp(4rem, 10vh, 7rem) var(--gut);
-    isolation: isolate;
-    /* Clips the fixed background to this section. */
-    clip-path: inset(0);
   }
 
-  /* Full-bleed still, pinned to the viewport so the text scrolls over it. */
-  .hero__bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -2;
-    width: 100vw;
+  /* One still, fixed behind the whole page, so it stays put while everything
+     scrolls over it. Sections veil it to whatever degree they need. */
+  .page-bg { position: fixed; inset: 0; z-index: -1; }
+  .page-bg picture { display: contents; }
+  .page-bg img {
+    width: 100%;
     height: 100svh;
     height: 100lvh;            /* never resizes when the URL bar hides */
     object-fit: cover;
     object-position: center 42%;
     filter: brightness(0.6);
   }
-  .hero picture, .panel picture { display: contents; }
-
-  /* No image set — fall back to plain black rather than a grey void. */
-  .hero--plain { background: var(--black); }
 
   .hero__byline {
     color: var(--white);
@@ -310,20 +302,8 @@
     text-align: center;
     /* As high as the content can sit without meeting the fixed nav. */
     padding: clamp(5.75rem, 13vh, 7rem) var(--gut) clamp(4rem, 10vh, 7rem);
-    isolation: isolate;
-    clip-path: inset(0);
-    background: var(--black);
   }
-    .panel__bg {
-    position: fixed; top: 0; left: 0; z-index: -2;
-    width: 100vw;
-    height: 100svh;
-    height: 100lvh;
-    object-fit: cover;
-    object-position: center 42%;
-    filter: brightness(0.6);
-  }
-  .panel__inner { max-width: 44rem; }
+    .panel__inner { max-width: 44rem; }
 
   .panel__venue { color: var(--white); letter-spacing: 0.14em; }
   .panel__dates {
@@ -417,7 +397,7 @@
 
   /* ---------------- accolade ---------------- */
 
-  .accolade { padding: clamp(4rem, 11vh, 7rem) var(--gut); background: var(--off); text-align: center; }
+  .accolade { padding: clamp(4rem, 11vh, 7rem) var(--gut); background: rgba(13, 13, 13, 0.9); text-align: center; }
   .accolade p.line {
     font-size: clamp(1rem, 2.1vw, 1.45rem);
     font-weight: 400;
@@ -429,7 +409,9 @@
 
   /* ---------------- bio ---------------- */
 
-  .bio-sec { background: var(--black); }
+  /* The lower sections sit on a 90% veil, so the pinned still reads
+     faintly through them rather than going flat black. */
+  .bio-sec, #gallery, #press, footer { background: rgba(7, 7, 7, 0.9); }
 
   .bio {
     display: grid;
@@ -539,13 +521,23 @@
       transition-duration: 0.01ms !important;
     }
     .wordmark, .hero__byline, .hero__tagline, .hero__meta, .reveal { opacity: 1; transform: none; }
-    .hero__bg, .panel__bg {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    }
+    .page-bg { position: absolute; height: 100%; }
+    .page-bg img { height: 100%; }
   }
 </style>
 </head>
 <body>
+
+{% if play.hero.background and play.hero.background != "" %}
+<div class="page-bg" aria-hidden="true">
+  <picture>
+    {% if play.hero.background_mobile and play.hero.background_mobile != "" %}
+    <source media="(max-width: 620px)" srcset="{{ play.hero.background_mobile }}">
+    {% endif %}
+    <img src="{{ play.hero.background }}" alt="" fetchpriority="high">
+  </picture>
+</div>
+{% endif %}
 
 <a class="skip" href="#main">Skip to content</a>
 
@@ -567,15 +559,7 @@
 <main id="main">
 
   <!-- ============ HERO ============ -->
-  <header class="hero{% if play.hero.background == nil or play.hero.background == "" %} hero--plain{% endif %}">
-    {% if play.hero.background and play.hero.background != "" %}
-    <picture>
-      {% if play.hero.background_mobile and play.hero.background_mobile != "" %}
-      <source media="(max-width: 620px)" srcset="{{ play.hero.background_mobile }}">
-      {% endif %}
-      <img class="hero__bg" src="{{ play.hero.background }}" alt="" aria-hidden="true" fetchpriority="high">
-    </picture>
-    {% endif %}
+  <header class="hero">
 
     {% if play.hero.byline and play.hero.byline != "" %}
     <p class="cap hero__byline">{{ play.hero.byline }}</p>
@@ -591,14 +575,6 @@
 
   <!-- ============ ABOUT / TICKETS PANEL ============ -->
   <section id="about" class="panel">
-    {% if play.hero.background and play.hero.background != "" %}
-    <picture>
-      {% if play.hero.background_mobile and play.hero.background_mobile != "" %}
-      <source media="(max-width: 620px)" srcset="{{ play.hero.background_mobile }}">
-      {% endif %}
-      <img class="panel__bg" src="{{ play.hero.background }}" alt="" aria-hidden="true" loading="lazy">
-    </picture>
-    {% endif %}
 
     <div class="panel__inner reveal">
       <p class="cap panel__venue">{% if play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name }}{% elsif play.hero.venue_short and play.hero.venue_short != "" %}{{ play.hero.venue_short }}{% else %}Venue to be confirmed{% endif %}</p>
