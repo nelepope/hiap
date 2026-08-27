@@ -45,7 +45,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
 <script type="application/ld+json">
 {
@@ -78,8 +78,10 @@
     --rule:      rgba(242,239,233,0.16);
     --rule-soft: rgba(242,239,233,0.08);
 
-    --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    /* Anonymous Pro throughout. It only has 400 and 700, so hierarchy comes
+       from size and colour rather than weight. */
+    --sans: 'Anonymous Pro', ui-monospace, 'SF Mono', Menlo, monospace;
+    --mono: 'Anonymous Pro', ui-monospace, 'SF Mono', Menlo, monospace;
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
     --gut:  clamp(1.4rem, 5vw, 5rem);
   }
@@ -90,8 +92,8 @@
     background: var(--black);
     color: var(--white);
     font-family: var(--sans);
-    font-weight: 300;
-    line-height: 1.7;
+    font-weight: 400;
+    line-height: 1.62;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
@@ -114,7 +116,7 @@
     font-family: var(--mono);
     font-size: clamp(0.62rem, 1.05vw, 0.74rem);
     font-weight: 400;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--dim);
   }
@@ -226,9 +228,9 @@
   }
 
   h2 {
-    font-size: clamp(1.35rem, 3vw, 2rem);
-    font-weight: 200;
-    letter-spacing: 0.02em;
+    font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
     line-height: 1.3;
   }
 
@@ -236,15 +238,15 @@
   @media (min-width: 900px) { .two-col { grid-template-columns: 1fr 1.15fr; align-items: start; } }
 
   .pull {
-    font-size: clamp(1.3rem, 3vw, 2.1rem);
-    font-weight: 200;
-    letter-spacing: 0.01em;
+    font-size: clamp(1.1rem, 2.4vw, 1.65rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
     line-height: 1.34;
     max-width: 20ch;
   }
   .prose { color: var(--dim); max-width: 58ch; }
   .prose p + p { margin-top: 1.2em; }
-  .prose strong { color: var(--white); font-weight: 400; }
+  .prose strong { color: var(--white); font-weight: 700; }
 
   .note {
     margin-top: 2.2rem;
@@ -258,9 +260,9 @@
 
   .accolade { padding: clamp(4rem, 11vh, 7rem) var(--gut); background: var(--off); text-align: center; }
   .accolade p.line {
-    font-size: clamp(1.15rem, 2.6vw, 1.75rem);
-    font-weight: 200;
-    letter-spacing: 0.03em;
+    font-size: clamp(1rem, 2.1vw, 1.45rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
     line-height: 1.4;
     max-width: 24ch;
     margin: 0.9rem auto 0;
@@ -279,7 +281,7 @@
     .credit { grid-template-columns: 15rem 1fr; align-items: baseline; padding: 1.4rem 0; }
   }
   .credit__role { padding-top: 0.3rem; }
-  .credit__name { font-size: clamp(1.05rem, 2vw, 1.35rem); font-weight: 200; letter-spacing: 0.01em; }
+  .credit__name { font-size: clamp(0.98rem, 1.8vw, 1.2rem); font-weight: 400; letter-spacing: -0.01em; }
   .credit__bio { font-size: 0.9rem; color: var(--faint); margin-top: 0.35rem; max-width: 54ch; }
   .group { margin: clamp(2.5rem, 6vw, 4rem) 0 0.6rem; }
   .group:first-of-type { margin-top: 0; }
@@ -287,10 +289,10 @@
   /* ---------------- tickets ---------------- */
 
   .ticket { border: 1px solid var(--rule); background: var(--raise); padding: clamp(1.5rem, 4vw, 2.8rem); max-width: 46rem; }
-  .ticket__venue { font-size: clamp(1.35rem, 3vw, 2rem); font-weight: 200; line-height: 1.25; margin: 0.6rem 0 0.4rem; }
+  .ticket__venue { font-size: clamp(1.15rem, 2.4vw, 1.6rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.3; margin: 0.6rem 0 0.4rem; }
   .ticket__where { color: var(--faint); font-size: 0.92rem; }
   .ticket__dates { margin: clamp(1.5rem, 4vw, 2.2rem) 0; padding: 1.3rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-  .ticket__dates p { margin-top: 0.5rem; font-size: 0.98rem; font-weight: 200; }
+  .ticket__dates p { margin-top: 0.5rem; font-size: 0.98rem; font-weight: 400; }
 
   .btn {
     display: inline-flex; align-items: center; gap: 0.7rem;
@@ -315,7 +317,7 @@
   .shot figcaption { position: relative; }
 
   .quotes { display: grid; gap: clamp(2rem, 5vw, 3.5rem); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); margin-top: clamp(3rem, 8vw, 5rem); }
-  .quote blockquote { font-size: clamp(1.1rem, 2.2vw, 1.5rem); font-weight: 200; font-style: italic; line-height: 1.4; color: var(--white); }
+  .quote blockquote { font-size: clamp(1rem, 1.9vw, 1.28rem); font-weight: 400; font-style: italic; line-height: 1.4; color: var(--white); }
   .quote figcaption { margin-top: 0.9rem; }
 
   .kit { margin-top: clamp(3rem, 8vw, 5rem); padding-top: clamp(1.5rem, 4vw, 2.5rem); border-top: 1px solid var(--rule); }
@@ -324,7 +326,7 @@
 
   footer { padding: clamp(3rem, 8vh, 5rem) var(--gut) clamp(2rem, 5vh, 3rem); border-top: 1px solid var(--rule); }
   .foot-grid { display: grid; gap: 2rem clamp(2rem, 6vw, 5rem); grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); margin-bottom: clamp(2.5rem, 6vw, 4rem); }
-  .foot-grid a { display: block; font-size: 0.86rem; font-weight: 200; text-decoration: none; margin-top: 0.5rem; word-break: break-word; transition: opacity 0.3s var(--ease); }
+  .foot-grid a { display: block; font-size: 0.86rem; font-weight: 400; text-decoration: none; margin-top: 0.5rem; word-break: break-word; transition: opacity 0.3s var(--ease); }
   .foot-grid a:hover { opacity: 0.6; }
   .foot-base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--rule-soft); }
 
