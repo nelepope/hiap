@@ -54,6 +54,7 @@ contact:
   general_email: hello@healthisaprivilege.com
   press_email: press@healthisaprivilege.com
 seo:
+  allow_search: false
   meta_description: Health Is a Privilege — a new play. Venue confirmed, dates to
     be announced. Join the mailing list for first news of tickets.
   share_description: A new play. Venue confirmed, dates to be announced.

@@ -15,7 +15,11 @@
 <title>Health Is a Privilege — a new play</title>
 <meta name="description" content="{{ play.seo.meta_description }}">
 <meta name="theme-color" content="#0d0f0e">
+{% if play.seo.allow_search %}
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+{% else %}
+<meta name="robots" content="noindex, nofollow">
+{% endif %}
 <link rel="canonical" href="https://healthisaprivilege.com/">
 
 <!-- Open Graph -->

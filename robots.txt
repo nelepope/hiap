@@ -1,4 +1,13 @@
+---
+# Built by Jekyll. Controlled by the "Allow Google to find the site" switch
+# in the CMS, under Search & sharing — don't edit this file by hand.
+---
+{% if site.data.play.seo.allow_search %}
 User-agent: *
 Allow: /
 
 Sitemap: https://healthisaprivilege.com/sitemap.xml
+{% else %}
+User-agent: *
+Disallow: /
+{% endif %}

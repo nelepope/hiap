@@ -194,6 +194,10 @@ content:
         type: object
         description: How the site looks in Google results and when the link is pasted into WhatsApp or Instagram.
         fields:
+          - name: allow_search
+            label: Allow Google to find the site
+            type: boolean
+            description: Off while the copy is still placeholder. Turn on when you're happy for the site to appear in search results — it can take Google a few days to notice either way.
           - name: meta_description
             label: Google description
             type: text
