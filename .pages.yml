@@ -47,7 +47,7 @@ content:
           - name: byline
             label: Byline
             type: string
-            description: Sits above the handwritten title. e.g. One woman show by Simonetta Gibejova.
+            description: "Sits above the handwritten title. Wrap words in **double asterisks** to embolden them, e.g. **Simonetta Gibejova** presents."
           - name: tagline
             label: Tagline
             type: text

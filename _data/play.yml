@@ -2,11 +2,11 @@ nav:
   cta: Buy tickets
 
 hero:
-  byline: Simonetta Gibejova presents
+  byline: "**Simonetta Gibejova** presents"
   background: /Pics/hero-poster.jpg
   background_mobile: ""
   background_video: /Pics/hero-video.mp4
-  tagline: A glimpse into the lonely life of a traumatised person
+  tagline: Did you ever wish you were somebody else?
   venue_short: ""
   dates_short: ""
   running_time: ""

@@ -265,6 +265,8 @@
     opacity: 0;
     animation: rise 1.5s var(--ease) 0.15s forwards;
   }
+  /* **bold** in the byline field renders as Anonymous Pro's 700 weight. */
+  .hero__byline strong { font-weight: 700; }
 
   .wordmark {
     width: clamp(150px, 14.5vw, 215px);
@@ -582,7 +584,7 @@
   <header class="hero">
 
     {% if play.hero.byline and play.hero.byline != "" %}
-    <p class="cap hero__byline">{{ play.hero.byline }}</p>
+    <p class="cap hero__byline">{{ play.hero.byline | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
     {% endif %}
 
     <img class="wordmark" src="/Pics/brand/wordmark.png" alt="Health is a Privilege" width="1400" height="1457">
