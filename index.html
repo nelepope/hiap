@@ -331,7 +331,9 @@
   }
   .panel__body {
     color: var(--white);
-    max-width: 42ch;
+    /* Monospace, so 1ch is exactly one character. Wider than the venue and
+       dates above it would unbalance the block; this sits just under. */
+    max-width: 58ch;
     margin: clamp(2.2rem, 6vh, 3.4rem) auto 0;
     font-size: clamp(0.95rem, 1.35vw, 1.05rem);
     line-height: 1.72;
