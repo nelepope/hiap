@@ -220,15 +220,6 @@
 
     /* Labels are small by design, but not below ~12.5px on a phone. */
     .cap { font-size: 0.78rem; }
-    .hero { padding-top: 6rem; }
-    .foot-grid a { padding: 0.35rem 0; }
-    .panel__ig { padding: 0.5rem 0; }
-
-    /* A phone screen is the tightest fit for the About panel, so its gaps
-       come in a little further to keep the ticket button above the fold. */
-    .panel { padding-bottom: 2rem; }
-    .panel__body { margin-top: 1.2rem; }
-    .pill { margin-top: 1.2rem; }
   }
 
   /* Anchors must clear the fixed bar when jumped to. */
@@ -548,6 +539,22 @@
     .page-bg { position: absolute; height: 100%; }
     .page-bg img { height: 100%; }
   }
+  /* ---------------- phones ----------------
+     These override rules defined above them, so this block has to come after
+     those rules — an identical-specificity selector inside a media query
+     still loses to a later one outside it. */
+  @media (max-width: 620px) {
+    .hero { padding-top: 6rem; }
+    .foot-grid a { padding: 0.35rem 0; }
+    .panel__ig { padding: 0.5rem 0; }
+
+    /* A phone is the tightest fit for the About panel, so its gaps come in
+       further to keep the ticket button above the fold. */
+    .panel { padding-bottom: 2rem; }
+    .panel__body { margin-top: 1.2rem; }
+    .pill { margin-top: 1.2rem; }
+  }
+
 </style>
 </head>
 <body>
