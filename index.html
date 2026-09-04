@@ -330,13 +330,14 @@
   }
   .panel__inner { max-width: 44rem; }
 
-  .panel__venue { color: var(--white); letter-spacing: 0.14em; }
-  .panel__dates {
-    font-size: clamp(1.15rem, 2.9vw, 1.95rem);
-    letter-spacing: -0.01em;
-    line-height: 1.25;
-    margin-top: 0.35rem;
+  /* Venue and dates read as one line, sized to stay inside the synopsis
+     measure below it rather than setting a wider one of its own. */
+  .panel__when {
     color: var(--white);
+    font-size: clamp(0.92rem, 2.1vw, 1.5rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.4;
   }
   .panel__body {
     color: var(--white);
@@ -630,9 +631,9 @@
   <section id="about" class="panel">
 
     <div class="panel__inner reveal">
-      <p class="cap panel__venue">{% if play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name }}{% elsif play.hero.venue_short and play.hero.venue_short != "" %}{{ play.hero.venue_short }}{% else %}Venue to be confirmed{% endif %}</p>
-
-      <p class="panel__dates">{% if play.tickets.dates_text and play.tickets.dates_text != "" %}{{ play.tickets.dates_text }}{% else %}Dates to be announced{% endif %}</p>
+      {% capture venue %}{% if play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name }}{% elsif play.hero.venue_short and play.hero.venue_short != "" %}{{ play.hero.venue_short }}{% else %}Venue to be confirmed{% endif %}{% endcapture %}
+      {% capture dates %}{% if play.tickets.dates_text and play.tickets.dates_text != "" %}{{ play.tickets.dates_text }}{% else %}Dates to be announced{% endif %}{% endcapture %}
+      <p class="panel__when">{{ venue | strip }} &middot; {{ dates | strip }}</p>
 
       <div class="panel__body">
         {% if play.synopsis.body and play.synopsis.body != "" %}

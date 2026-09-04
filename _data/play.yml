@@ -52,9 +52,9 @@ tickets:
   venue_name: The Space
   venue_address: 269 Westferry Road, London
   venue_url: ""
-  dates_text: 14–16 October 2027
-  start_date: "2027-10-14"
-  end_date: "2027-10-16"
+  dates_text: 14–16 October 2026
+  start_date: "2026-10-14"
+  end_date: "2026-10-16"
   onsale_text: Join the list below and you'll hear first.
   mailing_list_url: "mailto:hello@healthisaprivilege.com?subject=Mailing list — Health is a Privilege"
   booking_url: https://space.org.uk/event/health-is-a-privilege/
