@@ -57,7 +57,7 @@ tickets:
   end_date: "2027-10-16"
   onsale_text: Join the list below and you'll hear first.
   mailing_list_url: "mailto:hello@healthisaprivilege.com?subject=Mailing list — Health is a Privilege"
-  booking_url: ""
+  booking_url: https://space.org.uk/event/health-is-a-privilege/
 
 press:
   gallery:

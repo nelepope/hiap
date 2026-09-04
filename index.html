@@ -285,7 +285,6 @@
     font-family: var(--mono);
     font-size: clamp(0.78rem, 1.1vw, 0.82rem);
     font-weight: 400;
-    font-style: italic;
     letter-spacing: 0.13em;
     text-transform: uppercase;
     line-height: 1.9;
@@ -293,10 +292,11 @@
     opacity: 0;
     animation: rise 1.5s var(--ease) 0.85s forwards;
   }
-  /* Quote marks live here rather than in the CMS field, so the text stays
-     clean to edit. The closing one pulls back against the letter-spacing. */
-  .hero__tagline::before { content: '“'; }
-  .hero__tagline::after  { content: '”'; margin-left: -0.13em; }
+
+  .hero__cta {
+    opacity: 0;
+    animation: rise 1.5s var(--ease) 1.15s forwards;
+  }
 
   .hero__meta {
     position: absolute;
@@ -618,6 +618,10 @@
 
     {% if play.hero.tagline and play.hero.tagline != "" %}
     <p class="hero__tagline">{{ play.hero.tagline }}</p>
+    {% endif %}
+
+    {% if play.tickets.booking_url and play.tickets.booking_url != "" %}
+    <a class="pill hero__cta" href="{{ play.tickets.booking_url }}">{{ play.nav.cta | default: "Buy tickets" }}</a>
     {% endif %}
   </header>
 
