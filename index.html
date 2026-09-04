@@ -57,10 +57,17 @@
   "eventStatus": "https://schema.org/EventScheduled",
   "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
   "performer": { "@type": "Person", "name": "Simonetta Gibejova" },
-  "location": {
+{% if play.tickets.start_date and play.tickets.start_date != "" %}  "startDate": {{ play.tickets.start_date | jsonify }},
+{% endif %}{% if play.tickets.end_date and play.tickets.end_date != "" %}  "endDate": {{ play.tickets.end_date | jsonify }},
+{% endif %}  "location": {
     "@type": "PerformingArtsTheater",
     "name": {% if play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name | jsonify }}{% else %}"Venue to be announced"{% endif %},
-    "address": { "@type": "PostalAddress", "addressLocality": "London", "addressCountry": "GB" }
+    "address": {
+      "@type": "PostalAddress",
+{% if play.tickets.venue_address and play.tickets.venue_address != "" %}      "streetAddress": {{ play.tickets.venue_address | jsonify }},
+{% endif %}      "addressLocality": "London",
+      "addressCountry": "GB"
+    }
   }
 }
 </script>

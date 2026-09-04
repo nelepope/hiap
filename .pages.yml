@@ -141,6 +141,13 @@ content:
             label: Performance dates
             type: text
             description: Write it however reads best. Leave empty and it says "To be announced."
+          - name: start_date
+            label: First performance (for search engines)
+            type: date
+            description: Not shown on the page. Lets Google display the run's dates alongside the site in results.
+          - name: end_date
+            label: Last performance (for search engines)
+            type: date
           - name: onsale_text
             label: On-sale note
             type: text
