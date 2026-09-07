@@ -52,6 +52,10 @@ content:
             label: Tagline
             type: text
             description: The line under the handwritten title. Set in capitals by the design, so type it normally.
+          - name: cta
+            label: Ticket button label
+            type: string
+            description: The button under the tagline. Separate from the one in the navigation bar, so the two can differ.
           - name: venue_short
             label: Venue (short)
             type: string

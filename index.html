@@ -80,7 +80,8 @@
     --off:   #0d0d0d;
     --raise: #131313;
     --white: #f2efe9;
-    --red:   #e5322d;   /* nav hover only */
+    --red:   #e5322d;   /* nav and button hover */
+    --blood: #cf2f2b;   /* the film over the background still */
     --dim:   #a8a299;
     --faint: #a29c93;
     --rule:      rgba(242,239,233,0.16);
@@ -243,6 +244,9 @@
     justify-content: center;
     text-align: center;
     padding: clamp(4rem, 10vh, 7rem) var(--gut);
+    /* Midway between the old light veil and the 0.7 the lower sections use.
+       Luminance falls linearly with this alpha, so 0.4 really is the halfway
+       point and not just the halfway number. */
     background: rgba(7, 7, 7, 0.4);
   }
 
@@ -250,6 +254,20 @@
      scrolls over it. Sections veil it to whatever degree they need. */
   .page-bg { position: fixed; inset: 0; z-index: -1; }
   .page-bg picture { display: contents; }
+  /* Red wash over the still. It lives inside the fixed layer, so it travels
+     with the image and tints every section consistently rather than being
+     applied section by section. */
+  .page-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--blood);
+    /* Multiply behaves like a coloured gel laid over the image — it keeps the
+       blacks black and stains the light areas. A flat overlay on greyscale
+       just washes everything toward pink instead. */
+    mix-blend-mode: multiply;
+  }
+
   .page-bg img,
   .page-bg video {
     width: 100%;
@@ -262,9 +280,11 @@
     filter: grayscale(1);
   }
 
+  /* Stays white: the hero still is bright enough that even a light grey
+     drops under 4.5:1 here. The byline recedes by size instead. */
   .hero__byline {
     color: var(--white);
-    font-size: clamp(0.8rem, 1.15vw, 0.86rem);
+    font-size: clamp(0.72rem, 1vw, 0.8rem);
     letter-spacing: 0.16em;
     opacity: 0;
     animation: rise 1.5s var(--ease) 0.15s forwards;
@@ -272,12 +292,23 @@
   /* **bold** in the byline field renders as Anonymous Pro's 700 weight. */
   .hero__byline strong { font-weight: 700; }
 
+  /* Phones get the stacked wordmark, which suits a narrow screen; anything
+     wider gets the one-line version. Their proportions are nothing alike —
+     roughly square against 6.6:1 — so each needs its own width. */
+  .hero picture { display: contents; }
   .wordmark {
-    width: clamp(150px, 14.5vw, 215px);
+    width: clamp(220px, 65vw, 260px);
     height: auto;
-    margin: clamp(2.4rem, 6vh, 4rem) 0;
+    margin: 1.5rem 0 2.2rem;
     opacity: 0;
     animation: rise 2s var(--ease) 0.45s forwards;
+  }
+  @media (min-width: 621px) {
+    .wordmark { width: min(600px, 64vw); margin: 2.6rem 0 2.45rem; }
+    /* 24px lower than the stack would place it. The negative bottom margin
+       cancels the added height so the block does not re-centre — only the
+       button moves. */
+    .hero__cta { margin-top: 4.25rem; margin-bottom: -1.5rem; }
   }
 
   .hero__tagline {
@@ -288,12 +319,16 @@
     letter-spacing: 0.13em;
     text-transform: uppercase;
     line-height: 1.9;
+    /* Splits the line at its natural midpoint rather than filling the first
+       line and orphaning the remainder. */
+    text-wrap: balance;
     max-width: min(100%, 62ch);
     opacity: 0;
     animation: rise 1.5s var(--ease) 0.85s forwards;
   }
 
   .hero__cta {
+    margin-top: 1.3rem;
     opacity: 0;
     animation: rise 1.5s var(--ease) 1.15s forwards;
   }
@@ -566,6 +601,7 @@
     .panel { padding-bottom: 2rem; }
     .panel__body { margin-top: 1.2rem; }
     .pill { margin-top: 1.2rem; }
+    .hero__cta { margin-top: 1.3rem; }
   }
 
 </style>
@@ -615,14 +651,17 @@
     <p class="cap hero__byline">{{ play.hero.byline | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
     {% endif %}
 
-    <img class="wordmark" src="/Pics/brand/wordmark.png" alt="Health is a Privilege" width="1400" height="1457">
+    <picture>
+      <source media="(min-width: 621px)" srcset="/Pics/brand/wordmark-oneline.png" width="1800" height="255">
+      <img class="wordmark" src="/Pics/brand/wordmark.png" alt="Health is a Privilege" width="1400" height="1457">
+    </picture>
 
     {% if play.hero.tagline and play.hero.tagline != "" %}
     <p class="hero__tagline">{{ play.hero.tagline }}</p>
     {% endif %}
 
     {% if play.tickets.booking_url and play.tickets.booking_url != "" %}
-    <a class="pill hero__cta" href="{{ play.tickets.booking_url }}">{{ play.nav.cta | default: "Buy tickets" }}</a>
+    <a class="pill hero__cta" href="{{ play.tickets.booking_url }}">{{ play.hero.cta | default: "Book now" }}</a>
     {% endif %}
   </header>
 
