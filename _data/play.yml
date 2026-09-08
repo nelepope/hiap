@@ -57,7 +57,7 @@ tickets:
   start_date: "2026-10-14"
   end_date: "2026-10-16"
   onsale_text: Join the list below and you'll hear first.
-  mailing_list_url: "mailto:hello@healthisaprivilege.com?subject=Mailing list — Health is a Privilege"
+  mailing_list_url: "mailto:healthisaprivilege@gmail.com?subject=Mailing list — Health is a Privilege"
   booking_url: https://space.org.uk/event/health-is-a-privilege/
 
 press:
@@ -75,7 +75,7 @@ press:
   kit_text: Production images, the press release and interview requests — get in touch and we'll send the pack over.
 
 contact:
-  email: hello@healthisaprivilege.com
+  email: healthisaprivilege@gmail.com
   instagram_url: https://www.instagram.com/healthisaprivilege/
 
 seo:
