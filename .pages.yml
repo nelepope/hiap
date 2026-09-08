@@ -74,6 +74,17 @@ content:
             description: e.g. In production, In rehearsal, Now playing.
 
       # ---------------------------------------------------------------
+      - name: quote
+        label: Quote
+        type: object
+        description: A single line on its own, between the title screen and the synopsis. Leave it empty and the whole band disappears.
+        fields:
+          - name: text
+            label: Quote
+            type: text
+            description: No quotation marks — the design adds those. Keep it to one sentence; it is set large and breaks over two or three lines.
+
+      # ---------------------------------------------------------------
       - name: synopsis
         label: The play
         type: object
