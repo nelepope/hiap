@@ -82,7 +82,7 @@ contact:
   instagram_url: https://www.instagram.com/healthisaprivilege/
 
 seo:
-  allow_search: false
+  allow_search: true
   meta_description: Health is a Privilege — a play by Simonetta Gibejova. A glimpse into the lonely life of a traumatised person.
   share_description: A play by Simonetta Gibejova. A glimpse into the lonely life of a traumatised person.
   share_image: /Pics/brand/share-card.jpg
