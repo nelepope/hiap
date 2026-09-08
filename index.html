@@ -443,8 +443,9 @@
 
   .panel__body {
     color: var(--white);
-    /* Monospace, so 1ch is exactly one character. Wider than the venue and
-       dates above it would unbalance the block; this sits just under. */
+    /* Monospace, so 1ch is exactly one character. Phones never reach this
+       measure — the gutters bind first — so it only governs small tablets.
+       Desktop widens it at the end of the sheet. */
     max-width: 58ch;
     margin: clamp(1.5rem, 4vh, 2.4rem) auto 0;
     font-size: clamp(0.95rem, 1.35vw, 1.05rem);
@@ -683,6 +684,11 @@
        the "g" of privilege, which hangs below the wordmark's own box. */
     .hero__tagline { margin-top: -0.75rem; }
     .hero__cta { margin-top: 5.8rem; margin-bottom: -5.25rem; }
+
+    /* A wider measure on desktop: 58ch left the synopsis as a narrow ribbon
+       in a lot of space. 72ch is about as far as it goes — the .panel__inner
+       cap is 44rem, and the text hits it at 76ch. */
+    .panel__body { max-width: 72ch; }
   }
 
 </style>
