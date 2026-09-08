@@ -684,12 +684,20 @@
        not move. Much more than this and the tagline meets the descender on
        the "g" of privilege, which hangs below the wordmark's own box. */
     .hero__tagline { margin-top: -0.75rem; }
-    .hero__cta { margin-top: 5.8rem; margin-bottom: -5.25rem; }
+    .hero__cta { margin-top: 4.3rem; margin-bottom: -3.75rem; }
 
     /* A wider measure on desktop: 58ch left the synopsis as a narrow ribbon
        in a lot of space. 72ch is about as far as it goes — the .panel__inner
        cap is 44rem, and the text hits it at 76ch. */
     .panel__body { max-width: 72ch; }
+
+    /* Keeps a paragraph from ending on a single word. Where the browser
+       supports it this also tidies the whole rag; where it doesn't, the
+       script at the foot of the page ties the last two words together
+       instead. */
+    .panel__body p,
+    .bio__body p,
+    .prose { text-wrap: pretty; }
   }
 
 </style>
@@ -985,6 +993,33 @@
   });
   // Leaving mobile width with the menu open would otherwise lock scrolling.
   matchMedia('(min-width: 621px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
+
+  // No paragraph ends on a word by itself. text-wrap: pretty handles this in
+  // browsers that have it; this is the fallback for the ones that don't, tying
+  // the last two words together with a non-breaking space so they wrap as a
+  // pair. Desktop only, and reversible, because on a phone the measure is
+  // narrow enough that forcing two long words onto one line looks worse than
+  // the widow does.
+  if (!CSS.supports('text-wrap', 'pretty')) {
+    const proseWide = matchMedia('(min-width: 621px)');
+    const paras = document.querySelectorAll('.panel__body p, .bio__body p, .prose');
+    const original = new WeakMap();
+
+    const setWidont = (on) => {
+      paras.forEach((p) => {
+        // Only the trailing text node matters, and only when it ends the
+        // paragraph — markdown can leave a <strong> or <em> as the last child.
+        const node = p.lastChild;
+        if (!node || node.nodeType !== 3) return;
+        if (!original.has(node)) original.set(node, node.data);
+        const text = original.get(node);
+        node.data = on ? text.replace(/\s+(\S+\s*)$/, ' $1') : text;
+      });
+    };
+
+    setWidont(proseWide.matches);
+    proseWide.addEventListener('change', (e) => setWidont(e.matches));
+  }
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const targets = document.querySelectorAll('.reveal');
