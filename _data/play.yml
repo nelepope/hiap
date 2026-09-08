@@ -6,7 +6,7 @@ hero:
   background: /Pics/hero-poster.jpg
   background_mobile: ""
   background_video: /Pics/hero-video.mp4
-  tagline: When your pain goes ignored, make a drama about it
+  tagline: When your pain is ignored, make a drama about it
   cta: Book now
   venue_short: ""
   dates_short: ""
@@ -15,9 +15,9 @@ hero:
 
 synopsis:
   body: |
-    Ten year old Simonetta wants to be an actress. She’s happy and normal – until an encounter with a man on her way home from school. Years later, her chest and her stomach burn. Her jaw bleeds. She looks for answers, but the doctors say she’s fine. She unravels as she tries to deal with pain, trauma and the reactions of those whose expectations she cannot meet.
+    A young girl wants to be an actress. She’s playful and curious – until a man assaults her. Years later, without any obvious trigger, her chest and her stomach begin to burn. Her jaw bleeds. She looks for answers, but the doctors tell her she’s fine. Her mind unravels as she tries to deal with chronic pain, trauma and the expectations she cannot meet.
 
-    HEALTH IS A PRIVILEGE is an avant garde one-woman play about invisible pain. A dark comedy humming with quiet rage, Health is a Privilege will make you laugh out loud at inappropriate moments and offer solace to anyone who has ever sought help and been told there’s nothing wrong with them.
+    HEALTH IS A PRIVILEGE is an avant-garde one-woman play about invisible pain. Humming with quiet rage, Health is a Privilege will make you laugh out loud at inappropriate moments and offer solace to anyone who has ever sought help and been told there’s nothing wrong with them.
 
     With an original score and live music from guitarist Jack Martyn-Hillier.
   content_note: ""
@@ -50,9 +50,9 @@ creatives:
     bio: ""
 
 tickets:
-  venue_name: The Space
+  venue_name: The Space, London
   venue_address: 269 Westferry Road, London
-  venue_url: ""
+  venue_url: https://space.org.uk/event/health-is-a-privilege/
   dates_text: 14–16 October 2026
   start_date: "2026-10-14"
   end_date: "2026-10-16"
@@ -76,7 +76,7 @@ press:
 
 contact:
   email: hello@healthisaprivilege.com
-  instagram_url: ""
+  instagram_url: https://www.instagram.com/healthisaprivilege/
 
 seo:
   allow_search: false

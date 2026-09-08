@@ -61,7 +61,7 @@
 {% endif %}{% if play.tickets.end_date and play.tickets.end_date != "" %}  "endDate": {{ play.tickets.end_date | jsonify }},
 {% endif %}  "location": {
     "@type": "PerformingArtsTheater",
-    "name": {% if play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name | jsonify }}{% else %}"Venue to be announced"{% endif %},
+    "name": {% if play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name | split: "," | first | strip | jsonify }}{% else %}"Venue to be announced"{% endif %},
     "address": {
       "@type": "PostalAddress",
 {% if play.tickets.venue_address and play.tickets.venue_address != "" %}      "streetAddress": {{ play.tickets.venue_address | jsonify }},
@@ -305,10 +305,6 @@
   }
   @media (min-width: 621px) {
     .wordmark { width: min(600px, 64vw); margin: 2.6rem 0 2.45rem; }
-    /* 24px lower than the stack would place it. The negative bottom margin
-       cancels the added height so the block does not re-centre — only the
-       button moves. */
-    .hero__cta { margin-top: 4.25rem; margin-bottom: -1.5rem; }
   }
 
   .hero__tagline {
@@ -331,6 +327,14 @@
     margin-top: 1.3rem;
     opacity: 0;
     animation: rise 1.5s var(--ease) 1.15s forwards;
+  }
+  /* Sits 24px lower on desktop than the stack alone would put it. The bottom
+     margin gives back exactly what the top margin takes, so the hero's height
+     is unchanged and it does not re-centre — only the button moves.
+     This has to come after the rule above: an identical selector inside a
+     media query still loses to a later one outside it. */
+  @media (min-width: 621px) {
+    .hero__cta { margin-top: 2.8rem; margin-bottom: -3rem; }
   }
 
   .hero__meta {
@@ -374,6 +378,20 @@
     text-transform: uppercase;
     line-height: 1.4;
   }
+  /* Underlined rather than coloured: at this size a red venue name would
+     compete with the handwritten title for attention. The offset keeps the
+     rule off the descenders. */
+  .venue-link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: rgba(242, 239, 233, 0.45);
+    transition: text-decoration-color 0.3s var(--ease), color 0.3s var(--ease);
+  }
+  .venue-link:hover,
+  .venue-link:focus-visible { color: var(--red); text-decoration-color: var(--red); }
+
   .panel__body {
     color: var(--white);
     /* Monospace, so 1ch is exactly one character. Wider than the venue and
@@ -672,7 +690,8 @@
     <div class="panel__inner reveal">
       {% capture venue %}{% if play.tickets.venue_name and play.tickets.venue_name != "" %}{{ play.tickets.venue_name }}{% elsif play.hero.venue_short and play.hero.venue_short != "" %}{{ play.hero.venue_short }}{% else %}Venue to be confirmed{% endif %}{% endcapture %}
       {% capture dates %}{% if play.tickets.dates_text and play.tickets.dates_text != "" %}{{ play.tickets.dates_text }}{% else %}Dates to be announced{% endif %}{% endcapture %}
-      <p class="panel__when">{{ venue | strip }} &middot; {{ dates | strip }}</p>
+      {% capture venue_out %}{% if play.tickets.venue_url and play.tickets.venue_url != "" %}<a class="venue-link" href="{{ play.tickets.venue_url }}">{{ venue | strip }}</a>{% else %}{{ venue | strip }}{% endif %}{% endcapture %}
+      <p class="panel__when">{{ venue_out | strip }} &middot; {{ dates | strip }}</p>
 
       <div class="panel__body">
         {% if play.synopsis.body and play.synopsis.body != "" %}
